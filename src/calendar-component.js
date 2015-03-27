@@ -8,9 +8,6 @@ export default React.createClass({
   render() {
     return (
       <div className="calendar-component">
-        <div className="left-content">
-          <WorkoutList data={data} />
-        </div>
         <div className="right-content">
           <WorkoutCalendar data={data} />
         </div>

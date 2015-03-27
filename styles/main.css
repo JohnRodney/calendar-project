@@ -22,7 +22,8 @@ li {
 }
 
 .right-content {
-  float: right;
+  display: none;
+  margin-left: 10%;
   width: 80%;
 }
 
@@ -34,4 +35,21 @@ li {
   display: none;
   z-index: 999;
   background: white;
+}
+.disabled{
+  background-color: #efefef;
+}
+.price-holder{
+  color: black;
+  height: 50%;
+  width: 100%;
+  border-radius: 2%;
+  margin-top: 25%;
+  display: table;
+  text-align: center;
+  font-size: 2em;
+}
+.price-holder p{
+  display: table-cell;
+  vertical-align: middle;
 }
