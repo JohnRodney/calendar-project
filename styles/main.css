@@ -16,15 +16,8 @@ li {
   margin: 5px;
 }
 
-.left-content {
-  width: 19%;
-  float: left;
-}
-
 .right-content {
-  display: none;
-  margin-left: 10%;
-  width: 80%;
+  width: 100%;
 }
 
 /* tooltip styles */
@@ -52,4 +45,63 @@ li {
 .price-holder p{
   display: table-cell;
   vertical-align: middle;
+}
+.calendar-area{
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 30px;
+  display: none;
+}
+.calendar-head{
+  width: 100%;
+  background-color: #3A59D6;
+  color: white;
+  text-align: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.calendar-foot{
+  width: 100%;
+  background-color: #3A59D6;
+  color: white;
+  text-align: center;
+  clear: both;
+}
+
+#calendar-left{
+  width: 47%;
+  float: left;
+}
+#calendar-right{
+  width: 47%;
+  float: right;
+}
+#cal-go-left{
+  width: 3%;
+  background-color: #9EFF36;
+  height: 550px;
+  float: left;
+}
+.calendar-foot button{
+  background-color: #9EFF36;
+  height: 50px;
+  width: 30%;
+  border-radius: 5%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+#cal-go-right{
+  width: 3%;
+  background-color: #9EFF36;
+  height: 550px;
+  float: right;
+}
+.cal-selected{
+  background-color: blue;
+}
+.cal-selected .price-holder p{
+  color: white;
+}
+.light-green{
+  background-color: #f6fff6;
 }

@@ -5,15 +5,16 @@ import jQueryUI from 'jquery-ui';
 import fullCalendar from 'fullcalendar';
 import WorkoutScheduler from '../../lib/workout-scheduler';
 import Tooltip from '../../lib/tooltip';
+import dayhelper from '../format/day-render-helper';
 
 export default React.createClass({
   componentDidMount() {
-    setupCalendar($('.jquery-calendar'));
+    setupCalendar($('.' + this.props.name));
   },
 
   render() {
     return (
-      <div className="jquery-calendar">
+      <div className={this.props.name}>
       </div>
     );
   }
@@ -27,25 +28,14 @@ function setupCalendar(calendar) {
     drop(date) {
       console.log(moment(date).toString());
     },
+    height: 600,
     header: {
       left: '',
-      center: 'title',
+      center: '',
       right: 'today prev, next'
     },
     dayRender(date, cell){
-      var today = new Date();
-      var maxDay = moment().add(90, 'day');
-      var P = Math.floor(Math.random()*11+1395);
-      $(cell).removeClass('fc-today');
-      if(date < moment().add(-1, 'day')){
-        $(cell).addClass('disabled');
-      }
-      else if(date > maxDay){
-        $(cell).addClass('disabled');
-      }
-      else{
-        $(cell).append("<div class=\"price-holder\"><p>"+ getPrice(P)+"</p></div>");
-      }
+      dayhelper.renderDay(date, cell);
     },
     eventReceive(event) {
       new WorkoutScheduler(calendar, event).scheduleActivities();
@@ -57,15 +47,4 @@ function setupCalendar(calendar) {
       new Tooltip(jsEvent).hide();
     }
   });
-}
-var OriginalPrice = 1400;
-function getPrice(p){
-  var val = (p-OriginalPrice)*30;
-  if(val > 0){
-    val = "+$" + val;
-  }
-  else if(val !== 0){
-    val = "-$" + (val*-1);
-  }
-  return val;
 }

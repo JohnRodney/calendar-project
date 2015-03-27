@@ -9,7 +9,7 @@ export default React.createClass({
     return (
       <div className="calendar-component">
         <div className="right-content">
-          <WorkoutCalendar data={data} />
+          <WorkoutCalendar data={data} name={this.props.name} />
         </div>
         <div className="hidden-Components">
           <Tooltip />
