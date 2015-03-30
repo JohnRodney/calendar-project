@@ -81,7 +81,7 @@ export default React.createClass({
     this.cleanUp();
   },
   removeSelected(){
-    $('.fc-day').removeClass('cal-selected');
+    $('.fc-day, .fc-day-number').removeClass('cal-selected');
   },
   cleanUpLoop(selector, compMonth){
     selector.each(function(){
