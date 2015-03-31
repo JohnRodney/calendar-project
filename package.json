@@ -17,6 +17,7 @@
     }
   },
   "devDependencies": {
+    "json-server": "^0.6.6",
     "live-server": "^0.6.3"
   }
 }

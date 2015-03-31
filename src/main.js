@@ -2,6 +2,7 @@ import React from 'react';
 import CalendarComponent from './calendar-component';
 import ToggleCalendar from './toggle/toggle-calendar';
 import moment from "moment";
+import matrices from './matrices/matrices';
 
 //import $ from 'jquery';
 //import calendar from 'fullcalendar';
@@ -15,3 +16,4 @@ import moment from "moment";
 React.render(<ToggleCalendar />, document.getElementById('toggle-target'));
 React.render(<CalendarComponent name="jquery-calendar-left" />, document.getElementById('calendar-left'));
 React.render(<CalendarComponent name="jquery-calendar-right" />, document.getElementById('calendar-right'));
+matrices.testLoader();

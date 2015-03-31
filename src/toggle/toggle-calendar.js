@@ -69,7 +69,7 @@ export default React.createClass({
       var term = $('.calendar-head select option:selected').text();
       term = term.substring(0, term.indexOf(' '));
       var chosen = matrices.getMatricesByDateTerm(date, Number(term));
-      console.log(chosen[0].uuid);
+      console.log(chosen[0]._id.$oid);
     });
     // Callback to rerender the calendar with the lease term is changed slightly hacky but couldn't find a better method yet
     $('.calendar-head select').change(function(){

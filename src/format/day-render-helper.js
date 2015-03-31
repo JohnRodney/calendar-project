@@ -47,8 +47,8 @@ class dayRenderHelper{
     }
   }
   getPrice(){
-    var OriginalPrice = 1500;
-    var val = (this.matrix[0].price-OriginalPrice);
+    var OriginalPrice = matrice.cheapest;
+    var val = (this.matrix[0].finalRent-OriginalPrice);
     if(val > 0){
       val = "+$" + val;
     }
