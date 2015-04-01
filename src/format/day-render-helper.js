@@ -33,6 +33,7 @@ class dayRenderHelper{
     }
   }
   renderDay(date, cell){
+    var index = this.getIndexByDate(date);
     var today = moment();
     var maxDay = moment().add(90, 'day');
     $(cell).removeClass('fc-today');
@@ -41,9 +42,10 @@ class dayRenderHelper{
     else{
       var termLength = $('.calendar-head select option:selected').text();
       termLength = termLength.substring(0, termLength.indexOf(' '));
-      this.matrix = matrice.getMatricesByDateTerm(date, Number(termLength));
-      if(this.matrix.length > 0)
+      if(index % 1 === 0 && index > -1){
+        this.matrix = matrice.getMatricesByIndex(index);
         this.renderPrice(cell);
+      }
     }
   }
   getPrice(){
@@ -56,6 +58,9 @@ class dayRenderHelper{
       val = "-$" + (val*-1);
     }
     return val;
+  }
+  getIndexByDate(date){
+    return matrice.getIndexByDate(date);
   }
 }
 

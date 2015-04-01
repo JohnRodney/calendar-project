@@ -25,16 +25,17 @@ function setupCalendar(calendar) {
     editable: true,
     firstDay: 1,
     droppable: true,
-    drop(date) {
-      console.log(moment(date).toString());
-    },
     height: 600,
     header: {
       left: '',
       center: '',
       right: 'today prev, next'
     },
+    eventAfterAllRender(){
+      getTargetByDiv(this.el.parent().parent()).html('<p>' + this.title + '</p>');
+    },
     dayRender(date, cell){
+      this.month = date.month();
       dayhelper.renderDay(date, cell);
     },
     eventReceive(event) {
@@ -47,4 +48,28 @@ function setupCalendar(calendar) {
       new Tooltip(jsEvent).hide();
     }
   });
+}
+
+function getTargetByDiv(selector){
+  if(selector.attr('class').indexOf('right') !== -1){
+    return $('#cal-right-head')
+  }
+  return $('#cal-left-head');
+}
+
+function getMonthName(num){
+  switch(num){
+    case 0: return "January";
+    case 1: return "February";
+    case 2: return "March";
+    case 3: return "April";
+    case 4: return "May";
+    case 5: return "June";
+    case 6: return "July";
+    case 7: return "August";
+    case 8: return "September";
+    case 9: return "October";
+    case 10: return "November";
+    case 11: return "December";
+  }
 }

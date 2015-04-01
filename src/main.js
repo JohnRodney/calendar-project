@@ -16,4 +16,3 @@ import matrices from './matrices/matrices';
 React.render(<ToggleCalendar />, document.getElementById('toggle-target'));
 React.render(<CalendarComponent name="jquery-calendar-left" />, document.getElementById('calendar-left'));
 React.render(<CalendarComponent name="jquery-calendar-right" />, document.getElementById('calendar-right'));
-matrices.testLoader();

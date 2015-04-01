@@ -2,18 +2,8 @@ html, body {
   margin: 0;
 }
 
-.workout-list {
-  padding: 5px;
-}
-
 li {
   list-style: none;
-}
-
-.workout-item {
-  border: 1px solid grey;
-  padding: 5px;
-  margin: 5px;
 }
 
 .right-content {
@@ -67,19 +57,33 @@ li {
   text-align: center;
   clear: both;
 }
-
+#cal-left-head, #cal-right-head{
+  width: 50%;
+  height: 50px;
+  float: left;
+  background-color: #efefef;
+  text-align: center;
+  font-size: 1.5em;
+}
+#cal-left-head p, #cal-right-head p{
+  margin-top: 15px;
+}
+#cal-holder{
+  width: 94%;
+  float: left;
+}
 #calendar-left{
-  width: 47%;
+  width: 50%;
   float: left;
 }
 #calendar-right{
-  width: 47%;
+  width: 50%;
   float: right;
 }
 #cal-go-left{
   width: 3%;
   background-color: #9EFF36;
-  height: 550px;
+  height: 600px;
   float: left;
 }
 .calendar-foot button{
@@ -93,7 +97,7 @@ li {
 #cal-go-right{
   width: 3%;
   background-color: #9EFF36;
-  height: 550px;
+  height: 600px;
   float: right;
 }
 .cal-selected{

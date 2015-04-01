@@ -1,5 +1,6 @@
 import moment from 'moment';
 import $ from 'jquery';
+
 /* ------------------------------ todos ---------------------------
  * Add a query to database to get an array of matrices
  * remove the randomly generated matrices from the constructor
@@ -10,8 +11,9 @@ import $ from 'jquery';
 class matriceManager{
   constructor(){
     this.testLoader();  // an array of objects that will hold all matrices info
+    this.activeLease = 1;
   }
-  // Get a matrice by a selected day and leaseTerm
+  // store the cheapest value by the selected term.
   getCheapest(term){
     var cheapest = 900000;
     for(var x = 0; x < this.matrices.length; x++){
@@ -21,6 +23,11 @@ class matriceManager{
     }
     this.cheapest = cheapest;
   }
+  // get Matrices by index
+  getMatricesByIndex(index){
+    return [this.byLease[this.activeLease-1][index]];
+  }
+  // return a matrice by the date and term passed
   getMatricesByDateTerm(date, term){
     return this.byLease[term-1].filter(function(mat){
       return (moment(mat.moveInDate.$date).dayOfYear() === date.dayOfYear());
@@ -28,18 +35,44 @@ class matriceManager{
   }
   // Get matrices from the server and populate an array of all matrices.
   getMatricesFromServer(unitNumber){
+
   }
+  // break the overall query into a smaller array of just the passed lease term
   filterByLease(term){
     return this.matrices.filter(function(mat){
       return (term === mat.leaseTerm);
     });
   }
+  // break the overall array into 15 lease arrays
   breakUpArray(){
     this.byLease = [];
     for(var x = 0; x < 15; x++){
       this.byLease[x] = this.filterByLease(x+1);
     }
+    return true;
   }
+  // calculate the index in the array by the date passed
+  getIndexByDate(date){
+    var checkDate = moment(date);
+    var diff = checkDate.dayOfYear() - this.moveInDate.dayOfYear();
+    if(diff < 0){
+      return -1;
+    }
+    else{
+      return diff/2;
+    }
+  }
+  // calculates the first day that is available for the lease term.
+  getFirstMoveInDate(){
+    return this.byLease[this.activeLease-1][0].moveInDate.$date;
+  }
+  // the activelease to change cheapest value
+  setActiveLease(num){
+    this.activeLease = num;
+    this.getCheapest(num);
+    this.moveInDate = moment(this.getFirstMoveInDate());
+  }
+  // loads the matrices from the test server
   testLoader(callback){
     var that = this;
     var xobj = new XMLHttpRequest();
@@ -50,7 +83,8 @@ class matriceManager{
             // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
             that.matrices = JSON.parse(xobj.responseText);
             that.breakUpArray();
-            that.getCheapest(1);
+            that.getCheapest(that.activeLease);
+            that.moveInDate = moment(that.getFirstMoveInDate());
           }
     };
     xobj.send(null);

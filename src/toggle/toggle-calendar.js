@@ -2,7 +2,6 @@ import React from 'react';
 import $ from 'jquery';
 import moment from 'moment';
 import matrices from '../matrices/matrices';
-
 /* -------------------------------------------------------------- Documentation ---------------------------------------------------------------------------------
 // ToggleCalendar is a div button but will later just become a callable class when integrated into the larger project
 // registeredEvents: defaults to false this is a flag so that jQuery events are only registered once
@@ -69,10 +68,18 @@ export default React.createClass({
       var term = $('.calendar-head select option:selected').text();
       term = term.substring(0, term.indexOf(' '));
       var chosen = matrices.getMatricesByDateTerm(date, Number(term));
-      console.log(chosen[0]._id.$oid);
+      if(chosen.length !== 0){
+        console.log(chosen[0]._id.$oid);
+      }
+      else{
+        console.log('please choose a valid option');
+      }
     });
     // Callback to rerender the calendar with the lease term is changed slightly hacky but couldn't find a better method yet
     $('.calendar-head select').change(function(){
+      var term = $('.calendar-head select option:selected').text();
+      term = term.substring(0, term.indexOf(' '));
+      matrices.setActiveLease(Number(term));
       leftNext.trigger('click');
       leftPrev.trigger('click');
       that.handleClick();
