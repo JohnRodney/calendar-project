@@ -25,7 +25,6 @@ function setupCalendar(calendar) {
     editable: true,
     firstDay: 1,
     droppable: true,
-    height: 600,
     header: {
       left: '',
       center: '',
@@ -33,6 +32,13 @@ function setupCalendar(calendar) {
     },
     eventAfterAllRender(){
       getTargetByDiv(this.el.parent().parent()).html('<p>' + this.title + '</p>');
+      var that = this;
+      $(window).resize(function(){
+        calendar.fullCalendar('option', 'contentHeight', that.el.width()+that.el.width()*.1);
+        if(that.el.attr('class').indexOf('right') === -1){
+          $('#cal-left-holder, #cal-right-holder').css('height', that.el.width()+that.el.width()*0.1+50+'px');
+        }
+      });
     },
     dayRender(date, cell){
       this.month = date.month();

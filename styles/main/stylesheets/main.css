@@ -1,0 +1,297 @@
+/* line 1, ../sass/main.scss */
+html, body {
+  margin: 0;
+}
+
+/* line 5, ../sass/main.scss */
+li {
+  list-style: none;
+}
+
+/* line 9, ../sass/main.scss */
+.right-content {
+  width: 100%;
+}
+
+/* tooltip styles */
+/* line 15, ../sass/main.scss */
+.tooltip {
+  border: 1px solid black;
+  padding: 10px;
+  display: none;
+  z-index: 999;
+  background: white;
+}
+
+/* line 22, ../sass/main.scss */
+.disabled {
+  background-color: #efefef;
+}
+
+/* line 25, ../sass/main.scss */
+.price-holder {
+  color: black;
+  height: 50%;
+  width: 100%;
+  border-radius: 2%;
+  margin-top: 25%;
+  display: table;
+  text-align: center;
+  font-size: 1em;
+}
+
+/* line 35, ../sass/main.scss */
+.vertical-align {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+/* line 39, ../sass/main.scss */
+.calendar-area {
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 30px;
+  display: none;
+  background-color: white;
+}
+@media screen and (max-width: 1000px) {
+  /* line 39, ../sass/main.scss */
+  .calendar-area {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+/* line 50, ../sass/main.scss */
+.calendar-head {
+  width: 100%;
+  background-color: #5468b6;
+  color: white;
+  text-align: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+/* line 58, ../sass/main.scss */
+.cal-select-holder {
+  background-color: white;
+  width: 40%;
+  margin-left: 30%;
+  border-radius: 5px;
+  background-image: url("../../images/dropdown-arrow.svg");
+  background-position: right 10px center;
+  background-size: auto 50%;
+  background-repeat: no-repeat;
+}
+/* line 67, ../sass/main.scss */
+.cal-select-holder select {
+  padding-left: 10px;
+  width: 100%;
+  height: 50px;
+  -webkit-appearance: none;
+  font-size: 1.5em;
+  background-color: transparent;
+}
+
+/* line 76, ../sass/main.scss */
+.calendar-foot {
+  width: 100%;
+  background-color: #3A59D6;
+  color: white;
+  text-align: center;
+  clear: both;
+}
+
+/* line 83, ../sass/main.scss */
+#calendar-left, #calendar-right {
+  width: 97%;
+}
+@media screen and (max-width: 1000px) {
+  /* line 83, ../sass/main.scss */
+  #calendar-left, #calendar-right {
+    width: 100%;
+  }
+}
+
+/* line 89, ../sass/main.scss */
+#calendar-left {
+  float: right;
+}
+
+/* line 92, ../sass/main.scss */
+#calendar-right {
+  float: left;
+}
+
+/* line 95, ../sass/main.scss */
+#cal-left-holder, #cal-right-holder {
+  width: 50%;
+  float: left;
+  height: 100%;
+}
+@media screen and (max-width: 1000px) {
+  /* line 95, ../sass/main.scss */
+  #cal-left-holder, #cal-right-holder {
+    width: 100%;
+    clear: both;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  /* line 104, ../sass/main.scss */
+  #cal-right-holder {
+    display: none;
+  }
+}
+
+/* line 109, ../sass/main.scss */
+#cal-left-head, #cal-right-head {
+  width: 97%;
+  height: 35px;
+  background-color: #efefef;
+  text-align: center;
+  font-size: 1.5em;
+  padding-top: 15px;
+}
+@media screen and (max-width: 1000px) {
+  /* line 109, ../sass/main.scss */
+  #cal-left-head, #cal-right-head {
+    width: 100%;
+  }
+}
+
+/* line 120, ../sass/main.scss */
+#cal-left-head {
+  float: right;
+}
+
+/* line 123, ../sass/main.scss */
+#cal-left-head p, #cal-right-head p {
+  margin-top: 0;
+}
+
+/* line 126, ../sass/main.scss */
+#cal-holder {
+  width: 100%;
+  float: left;
+  overflow: hidden;
+  height: 100%;
+}
+
+/* line 132, ../sass/main.scss */
+#cal-go-left {
+  width: 3%;
+  background-color: #8dce30;
+  display: table;
+  float: left;
+  height: 100%;
+}
+@media screen and (max-width: 1000px) {
+  /* line 132, ../sass/main.scss */
+  #cal-go-left {
+    display: none;
+  }
+}
+
+/* line 142, ../sass/main.scss */
+.calendar-foot button {
+  background-color: #8dce30;
+  height: 50px;
+  width: 30%;
+  border-radius: 5px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 1.5em;
+  color: white;
+  border: none;
+}
+
+/* line 153, ../sass/main.scss */
+.white {
+  color: white !important;
+}
+
+/* line 156, ../sass/main.scss */
+.arrow-left {
+  background-image: url("../../images/calendar-arrow.svg");
+  width: 100%;
+  background-size: 100% 100%;
+  display: table-cell;
+}
+/* line 161, ../sass/main.scss */
+.arrow-left:after {
+  display: block;
+  content: "";
+  padding-bottom: 100%;
+}
+
+/* line 167, ../sass/main.scss */
+.arrow-right {
+  background-image: url("../../images/calendar-arrow.svg");
+  width: 100%;
+  background-size: 100% 100%;
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+  isplay: table-cell;
+  display: table-cell;
+}
+/* line 178, ../sass/main.scss */
+.arrow-right:after {
+  display: block;
+  content: "";
+  padding-bottom: 100%;
+}
+
+/* line 184, ../sass/main.scss */
+#cal-go-right {
+  width: 3%;
+  background-color: #8dce30;
+  float: right;
+  display: table;
+  height: 100%;
+}
+@media screen and (max-width: 1000px) {
+  /* line 184, ../sass/main.scss */
+  #cal-go-right {
+    display: none;
+  }
+}
+
+/* line 194, ../sass/main.scss */
+.cal-selected {
+  background-color: #5468b6 !important;
+}
+
+/* line 197, ../sass/main.scss */
+.cal-selected .price-holder p {
+  color: white;
+}
+
+/* line 200, ../sass/main.scss */
+.light-green {
+  background-color: #f6fff6;
+}
+
+/* line 203, ../sass/main.scss */
+.check-box {
+  background-color: #8dce30;
+  background-image: url("../../images/calendar-check.svg");
+  background-size: 90% 90%;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 1%;
+  width: 3%;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+/* line 214, ../sass/main.scss */
+.check-box:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}

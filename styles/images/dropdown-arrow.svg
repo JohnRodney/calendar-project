@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="15px" height="8px" viewBox="0 0 15 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+    <title>dropdown-arrow</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Quote" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="quote-adjust-date" sketch:type="MSArtboardGroup" transform="translate(-711.000000, -553.000000)" fill="#4D6EB6">
+            <g id="Group" sketch:type="MSLayerGroup" transform="translate(165.000000, 383.000000)">
+                <g id="lease-term" transform="translate(277.000000, 140.000000)" sketch:type="MSShapeGroup">
+                    <path d="M270.030272,30.1747826 C269.794457,29.9417391 269.412479,29.9417391 269.176665,30.1747826 C268.941199,30.406087 268.941025,30.7834783 269.176665,31.0165217 L276.073196,37.8252174 C276.309011,38.0582609 276.690989,38.0582609 276.926804,37.8252174 L283.823335,31.0165217 C284.058801,30.7834783 284.058975,30.4078261 283.823335,30.1747826 C283.587521,29.9417391 283.205543,29.9417391 282.969728,30.1747826 L276.500174,36.3834783 L270.030272,30.1747826" id="dropdown-arrow"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

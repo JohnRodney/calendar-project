@@ -32,6 +32,7 @@ export default React.createClass({
       target.hide();
     }
     if(!this.registeredEvents){
+      var that = this;
       this.registerEvents();
       this.registeredEvents = true;
     }
@@ -61,6 +62,10 @@ export default React.createClass({
     $('.calendar-area').on('click', '.selectable', function(){
       that.removeSelected();
       $(this).addClass('cal-selected');
+      $('.fc-day-number[data-date='+$(this).attr('data-date')+']').addClass('white');
+      that.oldPrice = $(this).html();
+      $(this).html("<div class=\"price-holder\"><p>$" + (Number($(this).text().replace(/\+\$/g, '')) + Number($('.base-rent-holder').text().replace(/\$/g, ''))) + "</p></div>" +
+                   "<div class=\"check-box\"></div>");
     });
     // Submit the chosen date and lease term on save button click
     $('.calendar-area').on('click', '.calendar-foot button', function(){
@@ -85,10 +90,32 @@ export default React.createClass({
       that.handleClick();
       that.handleClick();
     });
+    $(window).resize(function(){
+      $('.jquery-calendar-left, .jquery-calendar-right').fullCalendar('option', 'contentHeight', $('#calendar-left').width()+$('#calendar-left').width()*.1);
+      if($(window).width() > 1000){
+        $('#cal-left-holder, #cal-right-holder').css('height', $('#calendar-left').width()+$('#calendar-left').width()*0.1+50+'px');
+      }
+      else{
+        $('#cal-left-holder').css('height', $('#calendar-left').width()+$('#calendar-left').width()*0.1+50+'px');
+      }
+    });
+    $('.jquery-calendar-left, .jquery-calendar-right').fullCalendar('option', 'contentHeight', $('#calendar-left').width()+$('#calendar-left').width()*.1);
+    if($(window).width() > 1000){
+      console.log('hey');
+      console.log($('#calendar-left').width());
+      $('#cal-left-holder, #cal-right-holder').css('height', $('#calendar-left').width()+$('#calendar-left').width()*0.1+50+'px');
+    }
+    else{
+      $('#cal-left-holder').css('height', $('#calendar-left').width()+$('#calendar-left').width()*0.1+50+'px');
+    }
     this.cleanUp();
   },
   removeSelected(){
+    if($('.cal-selected').length > 0){
+      $('.cal-selected').html(this.oldPrice);
+    }
     $('.fc-day, .fc-day-number').removeClass('cal-selected');
+    $('.white').removeClass('white');
   },
   cleanUpLoop(selector, compMonth){
     selector.each(function(){
@@ -105,8 +132,8 @@ export default React.createClass({
   cleanUp(){
     var leftMonth = $('.jquery-calendar-left').fullCalendar('getDate').month();
     var rightMonth = $('.jquery-calendar-right').fullCalendar('getDate').month();
-    this.cleanUpLoop($(".jquery-calendar-left .fc-day, .jquery-calendar-left .fc-day-number"), leftMonth);
-    this.cleanUpLoop($(".jquery-calendar-right .fc-day, .jquery-calendar-right .fc-day-number"), rightMonth);
+    this.cleanUpLoop($(".jquery-calendar-left .fc-day"), leftMonth);
+    this.cleanUpLoop($(".jquery-calendar-right .fc-day"), rightMonth);
     $('.disabled').removeClass('light-green');
   }
 })

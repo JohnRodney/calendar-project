@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Workout Calendar</title>
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/main/stylesheets/main.css">
     <link rel="stylesheet" href="jspm_packages/github/arshaw/fullcalendar@2.2.7/fullcalendar.min.css">
   </head>
   <body>
@@ -12,44 +12,59 @@
   <div class="calendar-area">
     <header class='calendar-head'>
       <h1>Change your move-in date and lease term.</h1>
-      <select>
-        <option>1 month</option>
-        <option>2 months</option>
-        <option>3 months</option>
-        <option>4 months</option>
-        <option>5 month</option>
-        <option>6 months</option>
-        <option>7 months</option>
-        <option>8 months</option>
-        <option>9 month</option>
-        <option>10 months</option>
-        <option>11 months</option>
-        <option>12 months</option>
-        <option>13 month</option>
-        <option>14 months</option>
-        <option>15 months</option>
-      </select>
+      <h2>Current Base Rent <span class='base-rent-holder'></span></h2>
+      <div class='cal-select-holder'>
+        <select>
+          <option>1 month</option>
+          <option>2 months</option>
+          <option>3 months</option>
+          <option>4 months</option>
+          <option>5 month</option>
+          <option>6 months</option>
+          <option>7 months</option>
+          <option>8 months</option>
+          <option>9 month</option>
+          <option>10 months</option>
+          <option>11 months</option>
+          <option>12 months</option>
+          <option>13 month</option>
+          <option>14 months</option>
+          <option>15 months</option>
+        </select>
+      </div>
     </header>
     <div>
-    <div id='cal-go-left'>
-    </div>
     <div id='cal-holder'>
-      <div id='cal-left-head'>
+      <div id='cal-left-holder'>
+        <div id='cal-go-left'>
+          <div class='arrow-left'>
+          </div>
+        </div>
+        <div id='cal-left-head'>
+        </div>
+        <div id="calendar-left">
+        </div>
+        <div style='height: 1px; width: 100%; clear: both;'>
+        </div>
       </div>
-      <div id='cal-right-head'>
-      </div>
-      <div id="calendar-left">
-      </div>
-      <div id="calendar-right">
+      <div id='cal-right-holder'>
+        <div id ='cal-go-right'>
+          <div class='arrow-right'>
+          </div>
+        </div>
+        <div id='cal-right-head'>
+        </div>
+        <div id="calendar-right">
+        </div>
+        <div style='height: 1px; width: 100%; clear: both;'>
+        </div>
       </div>
       <div style='height: 1px; width: 100%; clear: both;'>
       </div>
     </div>
-    <div id ='cal-go-right'>
-    </div>
 
     <footer class='calendar-foot'>
-      <button>Save</button>
+      <button>SAVE</button>
     </footer>
   </div>
   <script src="jspm_packages/system.js"></script>

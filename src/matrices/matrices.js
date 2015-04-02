@@ -10,7 +10,7 @@ import $ from 'jquery';
 
 class matriceManager{
   constructor(){
-    this.testLoader();  // an array of objects that will hold all matrices info
+    this.testLoader();
     this.activeLease = 1;
   }
   // store the cheapest value by the selected term.
@@ -21,7 +21,7 @@ class matriceManager{
         cheapest = Math.min(cheapest, this.matrices[x].finalRent);
       }
     }
-    this.cheapest = cheapest;
+    return cheapest;
   }
   // get Matrices by index
   getMatricesByIndex(index){
@@ -32,6 +32,14 @@ class matriceManager{
     return this.byLease[term-1].filter(function(mat){
       return (moment(mat.moveInDate.$date).dayOfYear() === date.dayOfYear());
     });
+  }
+  renderCheapest(){
+    var base = $('.base-rent-holder');
+    if(base.length > 0){
+      base.html("$" + this.cheapest);
+      return true;
+    }
+    return false;
   }
   // Get matrices from the server and populate an array of all matrices.
   getMatricesFromServer(unitNumber){
@@ -69,7 +77,8 @@ class matriceManager{
   // the activelease to change cheapest value
   setActiveLease(num){
     this.activeLease = num;
-    this.getCheapest(num);
+    this.cheapest = this.getCheapest(num);
+    this.renderCheapest();
     this.moveInDate = moment(this.getFirstMoveInDate());
   }
   // loads the matrices from the test server
@@ -83,7 +92,8 @@ class matriceManager{
             // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
             that.matrices = JSON.parse(xobj.responseText);
             that.breakUpArray();
-            that.getCheapest(that.activeLease);
+            that.cheapest = that.getCheapest(that.activeLease);
+            that.renderCheapest();
             that.moveInDate = moment(that.getFirstMoveInDate());
           }
     };
