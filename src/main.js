@@ -13,9 +13,12 @@ import matrices from './matrices/matrices';
 // the scripts to load jpm_packages/traceour(or6to5)-runtime.js
 // and build.js
 
-matrices.testLoader(null, function(){
-  React.render(<ToggleCalendar />, document.getElementById('toggle-target'));
-  React.render(<CalendarComponent name="jquery-calendar-left" />, document.getElementById('calendar-left'));
-  React.render(<CalendarComponent name="jquery-calendar-right" />, document.getElementById('calendar-right'));
-  $('.throbber').hide();
-});
+window.initiateCalendar = function(nid){
+  matrices.testLoader(null, function(){
+    React.render(<ToggleCalendar />, document.getElementById('toggle-target'));
+    React.render(<CalendarComponent name="jquery-calendar-left" />, document.getElementById('calendar-left'));
+    React.render(<CalendarComponent name="jquery-calendar-right" />, document.getElementById('calendar-right'));
+    $('.throbber').hide();
+  }, nid);
+};
+
