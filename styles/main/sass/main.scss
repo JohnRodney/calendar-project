@@ -217,3 +217,37 @@ li {
     padding-bottom: 100%;
   }
 }
+.phone-cal-nav{
+  width: 100px;
+  margin: 15px auto 0 auto;
+  display: none;
+  @media screen and (max-width: 1000px){
+    display: block;
+  }
+}
+.cal-nav-left, .cal-nav-right{
+  height: 50px;
+  width: 50px;
+  background-image: url('../../images/next-month.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  float: left;
+}
+.cal-nav-left{
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";isplay: table-cell;
+}
+#toggl-target{
+  display: none;
+}
+.throbber{
+  width: 10%;
+  height: 10%;
+  left: 45%;
+  top: 200px;
+}

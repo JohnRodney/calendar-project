@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="8px" height="15px" viewBox="0 0 8 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+    <title>next month</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Community-Details-&amp;-Quote---mobile" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="mobile-calendar-2" sketch:type="MSArtboardGroup" transform="translate(-208.000000, -253.000000)" stroke="#8BC832" fill="#8BC832">
+            <path d="M205.164887,257.152935 C204.945119,257.355326 204.944956,257.685543 205.164887,257.889457 L211.60165,263.847065 C211.821744,264.050978 212.178256,264.050978 212.39835,263.847065 L218.835113,257.889457 C219.054881,257.685543 219.055044,257.356848 218.835113,257.152935 C218.615019,256.949022 218.258507,256.949022 218.038413,257.152935 L212.000163,262.585543 L205.961587,257.152935 C205.741493,256.949022 205.384981,256.949022 205.164887,257.152935 Z" id="next-month" sketch:type="MSShapeGroup" transform="translate(212.000000, 260.500000) rotate(-90.000000) translate(-212.000000, -260.500000) "></path>
+        </g>
+    </g>
+</svg>

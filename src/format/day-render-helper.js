@@ -12,7 +12,7 @@ import matrice from '../matrices/matrices';
 
 class dayRenderHelper{
   disableBefore(today, date, cell){
-    if(date < moment().add(-1, 'day')){
+    if(date < today.add(-1, 'day')){
       $(cell).addClass('disabled');
       return true;
     }
@@ -34,22 +34,19 @@ class dayRenderHelper{
   }
   renderDay(date, cell){
     var index = this.getIndexByDate(date);
-    var today = moment();
-    var maxDay = moment().add(90, 'day');
+    var today = moment(matrice.earliestMoveIn);
+    var maxDay = matrice.lastMoveIn;
     $(cell).removeClass('fc-today');
     if(this.disableBefore(today, date, cell)){return;}
     else if(this.disableAfterMax(date, cell, maxDay)){return;}
     else{
-      var termLength = $('.calendar-head select option:selected').text();
-      termLength = termLength.substring(0, termLength.indexOf(' '));
-      if(index % 1 === 0 && index > -1){
-        this.matrix = matrice.getMatricesByIndex(index);
-        this.renderPrice(cell);
-      }
+      this.matrix = matrice.getMatricesByIndex(index);
+      this.renderPrice(cell);
     }
   }
   getPrice(){
     var OriginalPrice = matrice.cheapest;
+    console.log(this.matrix);
     var val = (this.matrix[0].finalRent-OriginalPrice);
     if(val > 0){
       val = "+$" + val;

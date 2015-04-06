@@ -15,9 +15,13 @@ import matrices from '../matrices/matrices';
 
 export default React.createClass({
   registeredEvents: false,
+  componentDidMount(){
+    var that = this;
+    setTimeout(function(){that.handleClick();}, 200);
+  },
   render(){
     return (
-      <button onClick={this.handleClick}>Toggle Calendar</button>
+      <div></div>
     );
   },
   handleClick(){
@@ -32,9 +36,8 @@ export default React.createClass({
       target.hide();
     }
     if(!this.registeredEvents){
-      var that = this;
-      this.registerEvents();
       this.registeredEvents = true;
+      this.registerEvents();
     }
     else{
       this.cleanUp();
@@ -47,13 +50,13 @@ export default React.createClass({
     var leftPrev = $('.jquery-calendar-left .fc-prev-button');
     var that = this;
     // Left Direction navigation
-    $('#cal-go-left').click(function(){
+    $('#cal-go-left, .cal-nav-left').click(function(){
       rightPrev.trigger('click');
       leftPrev.trigger('click');
       that.cleanUp();
     });
     // Right Direction navigation
-    $('#cal-go-right').click(function(){
+    $('#cal-go-right, .cal-nav-right').click(function(){
       leftNext.trigger('click');
       rightNext.trigger('click');
       that.cleanUp();
@@ -72,9 +75,10 @@ export default React.createClass({
       var date = moment($('.cal-selected').attr('data-date'), "YYYY-MM-DD");
       var term = $('.calendar-head select option:selected').text();
       term = term.substring(0, term.indexOf(' '));
-      var chosen = matrices.getMatricesByDateTerm(date, Number(term));
+      var chosen = matrices.getMatricesByIndex(matrices.getIndexByDate(date));
       if(chosen.length !== 0){
-        console.log(chosen[0]._id.$oid);
+        console.log(chosen[0]._id);
+        matrices.getRedirect(chosen[0]._id);
       }
       else{
         console.log('please choose a valid option');
@@ -90,22 +94,37 @@ export default React.createClass({
       that.handleClick();
       that.handleClick();
     });
+    var over = false;
     $(window).resize(function(){
-      $('.jquery-calendar-left, .jquery-calendar-right').fullCalendar('option', 'contentHeight', $('#calendar-left').width()+$('#calendar-left').width()*.1);
-      if($(window).width() > 1000){
+      //$('.jquery-calendar-left, .jquery-calendar-right').fullCalendar('option', 'contentHeight', $('#calendar-left').width()+$('#calendar-left').width()*.1);
+      if($('#cal-right-holder').css('display') !== 'none'){
+        if(!over){
+          that.handleClick();
+          that.handleClick();
+        }
         $('#cal-left-holder, #cal-right-holder').css('height', $('#calendar-left').width()+$('#calendar-left').width()*0.1+50+'px');
+        over = true;
       }
       else{
-        $('#cal-left-holder').css('height', $('#calendar-left').width()+$('#calendar-left').width()*0.1+50+'px');
+        if(over){
+          that.handleClick();
+          that.handleClick();
+          leftNext.trigger('click');
+          leftPrev.trigger('click');
+        }
+        setTimeout(function(){
+          $('#cal-left-holder').css('height', $('#calendar-left').width()+$('#calendar-left').width()*0.1+50+'px');
+        }, 100);
+        over = false;
       }
     });
     $('.jquery-calendar-left, .jquery-calendar-right').fullCalendar('option', 'contentHeight', $('#calendar-left').width()+$('#calendar-left').width()*.1);
-    if($(window).width() > 1000){
-      console.log('hey');
-      console.log($('#calendar-left').width());
+    if($(window).width() >= 1000){
+      over = true;
       $('#cal-left-holder, #cal-right-holder').css('height', $('#calendar-left').width()+$('#calendar-left').width()*0.1+50+'px');
     }
     else{
+      over = false;
       $('#cal-left-holder').css('height', $('#calendar-left').width()+$('#calendar-left').width()*0.1+50+'px');
     }
     this.cleanUp();

@@ -295,3 +295,51 @@ li {
   display: block;
   padding-bottom: 100%;
 }
+
+/* line 220, ../sass/main.scss */
+.phone-cal-nav {
+  width: 100px;
+  margin: 15px auto 0 auto;
+  display: none;
+}
+@media screen and (max-width: 1000px) {
+  /* line 220, ../sass/main.scss */
+  .phone-cal-nav {
+    display: block;
+  }
+}
+
+/* line 228, ../sass/main.scss */
+.cal-nav-left, .cal-nav-right {
+  height: 50px;
+  width: 50px;
+  background-image: url("../../images/next-month.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  float: left;
+}
+
+/* line 237, ../sass/main.scss */
+.cal-nav-left {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+  isplay: table-cell;
+}
+
+/* line 245, ../sass/main.scss */
+#toggl-target {
+  display: none;
+}
+
+/* line 248, ../sass/main.scss */
+.throbber {
+  width: 10%;
+  height: 10%;
+  left: 45%;
+  top: 200px;
+}
