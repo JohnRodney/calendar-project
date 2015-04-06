@@ -856,33 +856,34 @@ function register(loader) {
   }
 }
 /*
- * Extension to detect ES6 and auto-load Traceur or 6to5 for processing
+ * Extension to detect ES6 and auto-load Traceur or Babel for processing
  */
 function es6(loader) {
 
   loader._extensions.push(es6);
 
-  var transpiler, transpilerName, transpilerModule, transpilerRuntimeModule, transpilerRuntimeGlobal;
+  var transpiler, transpilerModule, transpilerRuntimeModule, transpilerRuntimeGlobal;
 
   var isBrowser = typeof window != 'undefined';
 
   function setTranspiler(name) {
     transpiler = name;
-    transpilerName = transpiler == '6to5' ? 'to5' : transpiler;
     transpilerModule = '@' + transpiler;
-    transpilerRuntimeModule = '@' + transpiler + '-runtime';
-    transpilerRuntimeGlobal = (transpilerName == 'to5' ? transpilerName : '$' + transpilerName) + 'Runtime';
+    transpilerRuntimeModule = transpilerModule + (transpiler == 'babel' ? '-helpers' : '-runtime');
+    transpilerRuntimeGlobal = transpiler == 'babel' ? transpiler + 'Helpers' : '$' + transpiler + 'Runtime';
 
     // auto-detection of paths to loader transpiler files
-    if (typeof $__curScript != 'undefined') {
-      if (!loader.paths[transpilerModule])
-        loader.paths[transpilerModule] = $__curScript.getAttribute('data-' + loader.transpiler + '-src')
-          || ($__curScript.src ? $__curScript.src.substr(0, $__curScript.src.lastIndexOf('/') + 1)
-            : loader.baseURL + (loader.baseURL.lastIndexOf('/') == loader.baseURL.length - 1 ? '' : '/')
-            ) + loader.transpiler + '.js';
-      if (!loader.paths[transpilerRuntimeModule])
-        loader.paths[transpilerRuntimeModule] = $__curScript.getAttribute('data-' + loader.transpiler + '-runtime-src') || loader.paths[transpilerModule].replace(/\.js$/, '-runtime.js');
-    }
+    var scriptBase;
+    if ($__curScript && $__curScript.src)
+      scriptBase = $__curScript.src.substr(0, $__curScript.src.lastIndexOf('/') + 1);
+    else
+      scriptBase = loader.baseURL + (loader.baseURL.lastIndexOf('/') == loader.baseURL.length - 1 ? '' : '/');
+
+    if (!loader.paths[transpilerModule])
+      loader.paths[transpilerModule] = $__curScript && $__curScript.getAttribute('data-' + loader.transpiler + '-src') || scriptBase + loader.transpiler + '.js';
+    
+    if (!loader.paths[transpilerRuntimeModule])
+      loader.paths[transpilerRuntimeModule] = $__curScript && $__curScript.getAttribute('data-' + transpilerRuntimeModule.substr(1) + '-src') || scriptBase + transpilerRuntimeModule.substr(1) + '.js';
   }
 
   // good enough ES6 detection regex - format detections not designed to be accurate, but to handle the 99% use case
@@ -904,7 +905,7 @@ function es6(loader) {
       load.metadata.format = 'es6';
 
       // dynamically load transpiler for ES6 if necessary
-      if (isBrowser && !loader.global[transpilerName])
+      if (isBrowser && !loader.global[transpiler])
         return loader['import'](transpilerModule).then(function() {
           return loaderTranslate.call(loader, load);
         });

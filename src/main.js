@@ -15,9 +15,9 @@ import matrices from './matrices/matrices';
 
 window.initiateCalendar = function(nid){
   matrices.testLoader(null, function(){
-    React.render(<ToggleCalendar />, document.getElementById('toggle-target'));
-    React.render(<CalendarComponent name="jquery-calendar-left" />, document.getElementById('calendar-left'));
-    React.render(<CalendarComponent name="jquery-calendar-right" />, document.getElementById('calendar-right'));
+    React.render(React.createElement(ToggleCalendar, null), document.getElementById('toggle-target'));
+    React.render(React.createElement(CalendarComponent, {name: "jquery-calendar-left"}), document.getElementById('calendar-left'));
+    React.render(React.createElement(CalendarComponent, {name: "jquery-calendar-right"}), document.getElementById('calendar-right'));
     $('.throbber').hide();
   }, nid);
 };

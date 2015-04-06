@@ -14,8 +14,7 @@ export default React.createClass({
 
   render() {
     return (
-      <div className={this.props.name}>
-      </div>
+      React.createElement('div', {className: this.props.name})
     );
   }
 });
