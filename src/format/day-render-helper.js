@@ -14,6 +14,9 @@ class dayRenderHelper{
   disableBefore(today, date, cell){
     if(date < today.add(-1, 'day')){
       $(cell).addClass('disabled');
+      if(date.month() === today.month()){
+        $(cell).append('<div class=\"question-icon\"></div>');
+      }
       return true;
     }
     return false;
@@ -21,12 +24,18 @@ class dayRenderHelper{
   disableAfterMax(date, cell, max){
     if(date > max){
       $(cell).addClass('disabled');
+      if(date.month() === max.month()){
+        $(cell).append('<div class=\"question-icon\"></div>');
+      }
       return true;
     }
     return false;
   }
   renderPrice(cell){
     var p = this.getPrice();
+    if(p === 0){
+      p = "+$ 0";
+    }
     $(cell).append("<div class=\"price-holder\"><p>"+ p +"</p></div>");
     if(p === 0){
       $(cell).addClass('light-green');
@@ -46,7 +55,6 @@ class dayRenderHelper{
   }
   getPrice(){
     var OriginalPrice = matrice.cheapest;
-    console.log(this.matrix);
     var val = (this.matrix[0].finalRent-OriginalPrice);
     if(val > 0){
       val = "+$" + val;

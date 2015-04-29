@@ -31,6 +31,9 @@ export default React.createClass({
       $('.fc-today-button').trigger('click');
       $('.jquery-calendar-right .fc-next-button').trigger('click');
       $('.fc-toolbar').hide();
+      $('.jquery-calendar-left').fullCalendar('gotoDate', matrices.earliestMoveIn);
+      $('.jquery-calendar-right').fullCalendar('gotoDate', matrices.earliestMoveIn);
+      $('.jquery-calendar-right .fc-next-button').trigger('click');
     }
     else{
       target.hide();
@@ -49,17 +52,33 @@ export default React.createClass({
     var leftNext = $('.jquery-calendar-left .fc-next-button');
     var leftPrev = $('.jquery-calendar-left .fc-prev-button');
     var that = this;
+    $('body').on({
+      mouseenter: function(e){
+        $('body').append("<div class=\"popup-info\">Need to look further in the future? Get in touch with a specialist. (713) 349-2300.</div>");
+        var p = $('.popup-info');
+        p.css({
+          top: ($(this).offset().top+($(this).height()*.1))-$('.popup-info').height(),
+          left: ($(this).offset().left + $(this).width()/2)-100});
+        p.show();
+      },
+      mouseleave: function(){
+        $('.popup-info').remove();
+      }}, '.question-icon');
     // Left Direction navigation
     $('#cal-go-left, .cal-nav-left').click(function(){
-      rightPrev.trigger('click');
-      leftPrev.trigger('click');
-      that.cleanUp();
+      if($('.jquery-calendar-left').fullCalendar('getDate').month() > matrices.earliestMoveIn.month()){
+        rightPrev.trigger('click');
+        leftPrev.trigger('click');
+        that.cleanUp();
+      }
     });
     // Right Direction navigation
     $('#cal-go-right, .cal-nav-right').click(function(){
-      leftNext.trigger('click');
-      rightNext.trigger('click');
-      that.cleanUp();
+      if($('.jquery-calendar-right').fullCalendar('getDate').month() < matrices.lastMoveIn.month()){
+        leftNext.trigger('click');
+        rightNext.trigger('click');
+        that.cleanUp();
+      }
     });
     // Allow user to select a Date
     $('.calendar-area').on('click', '.selectable', function(){
@@ -73,15 +92,15 @@ export default React.createClass({
     // Submit the chosen date and lease term on save button click
     $('.calendar-area').on('click', '.calendar-foot button', function(){
       var date = moment($('.cal-selected').attr('data-date'), "YYYY-MM-DD");
-      var term = $('.calendar-head select option:selected').text();
-      term = term.substring(0, term.indexOf(' '));
-      var chosen = matrices.getMatricesByIndex(matrices.getIndexByDate(date));
-      if(chosen.length !== 0){
-        console.log(chosen[0]._id);
-        matrices.getRedirect(chosen[0]._id);
-      }
-      else{
-        console.log('please choose a valid option');
+      if(typeof(date._i) !== 'undefined'){
+        var term = $('.calendar-head select option:selected').text();
+        term = term.substring(0, term.indexOf(' '));
+        var chosen = matrices.getMatricesByIndex(matrices.getIndexByDate(date));
+        $(this).remove();
+        $('.calendar-foot').append("<div class=\"loader\">Saving</div>");
+        if(chosen.length !== 0){
+          matrices.getRedirect(chosen[0]._id);
+        }
       }
     });
     // Callback to rerender the calendar with the lease term is changed slightly hacky but couldn't find a better method yet

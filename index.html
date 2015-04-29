@@ -3,9 +3,11 @@
   <head>
     <meta charset="UTF-8">
     <title>Workout Calendar</title>
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="styles/main/stylesheets/main.css">
     <link rel="stylesheet" href="jspm_packages/github/arshaw/fullcalendar@2.2.7/fullcalendar.min.css">
     <link rel="stylesheet" href="http://css-spinners.com/css/spinner/throbber.css" type="text/css">
+    <link rel="stylesheet" href="http://css-spinners.com/css/spinner/whirly.css" type="text/css">
   </head>
   <body>
   <div class="throbber">
@@ -15,9 +17,10 @@
   </body>
   <div class="calendar-area">
     <header class='calendar-head'>
-      <h1>Change your move-in date and lease term.</h1>
-      <h2>Current Base Rent <span class='base-rent-holder'></span></h2>
+      <p class="cal-header">Change your move-in date and lease term.</h1>
+      <p class='cal-label'>Current Base Rent <span class='base-rent-holder'></span></h2>
       <div class='cal-select-holder'>
+        <p>Selected lease term</p>
         <select>
           <option>1 month</option>
           <option>2 months</option>
@@ -76,13 +79,12 @@
     </div>
 
     <footer class='calendar-foot'>
-      <button>SAVE</button>
+      <button class='cal-save'>SAVE</button>
     </footer>
   </div>
   <script src="jspm_packages/system.js"></script>
   <script src="config.js"></script>
   <script>
-    System.transpiler = '6to5';
     System.import('src/main');
   </script>
 </html>

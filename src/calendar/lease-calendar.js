@@ -19,10 +19,11 @@ export default React.createClass({
   }
 });
 
+var loadFlag = false;
 function setupCalendar(calendar) {
   calendar.fullCalendar({
     editable: true,
-    firstDay: 1,
+    firstDay: 0,
     droppable: true,
     header: {
       left: '',

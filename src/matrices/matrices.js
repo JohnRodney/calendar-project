@@ -1,4 +1,5 @@
 import moment from 'moment';
+import toggle from '../toggle/toggle-calendar';
 import $ from 'jquery';
 /* ------------------------------ todos ---------------------------
  * Add a query to database to get an array of matrices
@@ -28,7 +29,8 @@ class matriceManager{
   // return a matrice by the date and term passed
   getMatricesByDateTerm(date, term){
     return this.byLease[term-1].filter(function(mat){
-      return (moment(mat.moveInDate.$date).dayOfYear() === date.dayOfYear());
+      return (moment(mat.moveInDate.$date).dayOfYear() === date.dayOfYear() &&
+              moment(mat.moveInDate.$date).year() === date.year());
     });
   }
   renderCheapest(){
@@ -68,7 +70,6 @@ class matriceManager{
   breakUpArray(){
     this.earliestMoveIn = moment().add('200', 'days');
     this.lastMoveIn = moment();
-    console.log(this.earliestMoveIn);
     this.cheapest = 90000;
     this.byLease = [];
     this.availableLeases = [];
@@ -82,10 +83,6 @@ class matriceManager{
         this.activeLease = x+1;
       }
     }
-    console.log(this.earliestMoveIn);
-    console.log(this.lastMoveIn);
-    console.log(this.cheapest);
-    console.log(this.activeLease);
     this.renderInfo();
     return true;
   }
@@ -111,7 +108,6 @@ class matriceManager{
   }
   renderInfo(){
     this.fillSelectBox();
-    console.log($('.cal-select-holder select').html());
     this.renderCheapest();
   }
   // calculate the index in the array by the date passed
@@ -126,22 +122,23 @@ class matriceManager{
       if(x < this.byLease[this.activeLease-1].length-1){
         next = moment(this.byLease[this.activeLease-1][x+1].moveInDate);
       }
-      if(checkDate.dayOfYear() === current.dayOfYear()){
+      if(checkDate.dayOfYear() === current.dayOfYear() && checkDate.year() === current.year()){
         return x;
       }
       else if(prev !== -1){
-        if(checkDate.dayOfYear() > prev.dayOfYear() &&
-           checkDate.dayOfYear() < current.dayOfYear()){
+        if(checkDate.dayOfYear() > prev.dayOfYear() && checkDate.year() >= prev.year() &&
+           checkDate.dayOfYear() < current.dayOfYear() && checkDate.year() <= current.year()){
           return x-1;
         }
       }
       else if(next !== -1){
-        if(checkDate.dayOfYear() > current.dayOfYear() &&
-           checkDate.dayOfYear() < next.dayOfYear()){
+        if(checkDate.dayOfYear() > current.dayOfYear() && checkDate.year() >= current.year() &&
+           checkDate.dayOfYear() < next.dayOfYear() && checkDate.year() <= next.year()){
           return x;
         }
       }
     }
+    return this.byLease[this.activeLease-1].length-1;
   }
   // calculates the first day that is available for the lease term.
   getFirstMoveInDate(){
@@ -157,7 +154,7 @@ class matriceManager{
   getRedirect(id){
     var toSend = {id: id};
     var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
-    xmlhttp.open("POST", "http://5b45b4e6.ngrok.com/v1/rent-matrix");
+    xmlhttp.open("POST", "http://camden-node-2.herokuapp.com/v1/rent-matrix");
     xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xmlhttp.send(JSON.stringify(toSend));
     xmlhttp.onreadystatechange = function(){
@@ -172,12 +169,11 @@ class matriceManager{
     var that = self || this;
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
-    xobj.open('GET', 'http://5b45b4e6.ngrok.com/v1/'+nid+'/rent-matrix', true); // Replace 'my_data' with the path to your file
+    xobj.open("GET", "http://camden-node-2.herokuapp.com/v1/" + nid + "/rent-matrix", true); // Replace 'my_data' with the path to your file
     xobj.onreadystatechange = function () {
           if (xobj.readyState == 4 && xobj.status == "200") {
             // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
             // Get and Save Data
-            console.log(JSON.parse(xobj.responseText));
             that.matrices = JSON.parse(xobj.responseText);
             // Break up into arrays for each lease term then save cheapest
             // Earliest Move In Date and Last Move In Date

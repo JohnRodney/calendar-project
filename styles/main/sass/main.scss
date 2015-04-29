@@ -20,7 +20,7 @@ li {
   background: white;
 }
 .disabled{
-  background-color: #efefef;
+  background-color: #F2F5FA;
 }
 .price-holder{
   color: black;
@@ -30,7 +30,7 @@ li {
   margin-top: 25%;
   display: table;
   text-align: center;
-  font-size: 1em;
+  font-size: 15px;
 }
 .vertical-align{
   display: table-cell;
@@ -49,11 +49,22 @@ li {
 }
 .calendar-head{
   width: 100%;
-  background-color: #5468b6;
+  background-color: #4d63b6;
   color: white;
   text-align: center;
   padding-top: 15px;
   padding-bottom: 15px;
+  font-family: 'Lato', sans-serif;
+}
+.cal-header{
+  font-size: 32px;
+  font-weight: 300;
+  margin-bottom: 10px;
+}
+.cal-label{
+  margin-top: 10px;
+  font-size: 21px;
+  font-weight: 300;
 }
 .cal-select-holder{
   background-color: white;
@@ -61,27 +72,48 @@ li {
   margin-left: 30%;
   border-radius: 5px;
   background-image: url('../../images/dropdown-arrow.svg');
-  background-position: right 10px center;
-  background-size: auto 50%;
+  background-position: right 10px bottom 15px;
+  background-size: auto 20%;
   background-repeat: no-repeat;
+  text-align: left;
+  color: black;
   select{
+    border: none;
     padding-left: 10px;
-    width: 100%;
-    height: 50px;
+    width: 200%;
+    height: 40px;
     -webkit-appearance: none;
     font-size: 1.5em;
     background-color: transparent;
+    font-family: 'lato', sans-serif;
+    font-weight: 300;
+    font-size: 21px;
+    &:focus{
+      outline: none;
+    }
+  }
+  p{
+    padding-top: 5px;
+    margin: 0;
+    padding-left: 10px;
+    font-family: 'lato', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
   }
 }
 .calendar-foot{
+  min-height: 200px;
   width: 100%;
-  background-color: #3A59D6;
+  background-color: #4d63b6;
   color: white;
   text-align: center;
   clear: both;
+  position: relative;
+  top: -2px;
 }
 #calendar-left, #calendar-right{
-  width: 97%;
+  font-family: 'Lato', sans-serif;
+  width: calc(100% - 30px);
   @media screen and (max-width: 1000px){
     width: 100%;
   }
@@ -107,15 +139,22 @@ li {
   }
 }
 #cal-left-head, #cal-right-head{
-  width: 97%;
+  width: calc(100% - 30px);
   height: 35px;
-  background-color: #efefef;
+  background-color: #f7f7f7;
   text-align: center;
-  font-size: 1.5em;
+  font-size: 20px;
   padding-top: 15px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
   @media screen and (max-width: 1000px){
     width: 100%;
   }
+}
+.fc-widget-header{
+  border: none;
+  border-style: none !important;
+  background-color: #f7f7f7;
 }
 #cal-left-head{
   float: right;
@@ -130,8 +169,8 @@ li {
   height: 100%;
 }
 #cal-go-left{
-  width: 3%;
-  background-color: #8dce30;
+  width: 30px;
+  background-color: #8bc832;
   display: table;
   float: left;
   height: 100%;
@@ -139,16 +178,19 @@ li {
     display: none;
   }
 }
-.calendar-foot button{
-  background-color: #8dce30;
+.cal-save{
+  background-color: #8bc832;
   height: 50px;
   width: 30%;
   border-radius: 5px;
-  margin-top: 15px;
+  margin-top: 40px;
   margin-bottom: 15px;
-  font-size: 1.5em;
+  font-size: 13px;
   color: white;
+  letter-spacing: 2px;
   border: none;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
 }
 .white{
   color: white !important;
@@ -156,7 +198,9 @@ li {
 .arrow-left{
   background-image: url('../../images/calendar-arrow.svg');
   width: 100%;
-  background-size: 100% 100%;
+  background-size: 50% 50%;
+  background-repeat: no-repeat;
+  background-position: center center;
   display: table-cell;
   &:after{
     display: block;
@@ -167,7 +211,9 @@ li {
 .arrow-right{
   background-image: url('../../images/calendar-arrow.svg');
   width: 100%;
-  background-size: 100% 100%;
+  background-size: 50% 50%;
+  background-repeat: no-repeat;
+  background-position: center center;
   -moz-transform: scaleX(-1);
   -o-transform: scaleX(-1);
   -webkit-transform: scaleX(-1);
@@ -182,8 +228,8 @@ li {
   }
 }
 #cal-go-right{
-  width: 3%;
-  background-color: #8dce30;
+  width: 30px;
+  background-color: #8bc832;
   float: right;
   display: table;
   height: 100%;
@@ -192,7 +238,7 @@ li {
   }
 }
 .cal-selected{
-  background-color: #5468b6 !important;
+  background-color: #4d63b6 !important;
 }
 .cal-selected .price-holder p{
   color: white;
@@ -201,7 +247,7 @@ li {
   background-color: #f6fff6;
 }
 .check-box{
-  background-color: #8dce30;
+  background-color: #8bc832;
   background-image: url('../../images/calendar-check.svg');
   background-size: 90% 90%;
   background-position: center;
@@ -250,4 +296,87 @@ li {
   height: 10%;
   left: 45%;
   top: 200px;
+}
+.calendar-component{
+  font-size: 12px;
+}
+.question-icon{
+  height: 100%;
+  width: 100%;
+  background-size: 50% auto;
+  background-image: url('../../images/calendar-icon.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.popup-info{
+  width: 200px;
+  padding: 10px;
+  padding-bottom: 20px;
+  background-image: url('../../images/tool-tip.png');
+  background-size: 100% 100%;
+  border-radius: 5px;
+  position: absolute;
+  text-align: center;
+  font-family: 'Late', sans-serif;
+  font-weight: 300;
+  display: none;
+  top: 40%;
+  left: 40%;
+  z-index: 99999;
+}
+.loader:before,
+.loader:after,
+.loader {
+  border-radius: 50%;
+  width: 2.5em;
+  height: 2.5em;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation: load7 1.8s infinite ease-in-out;
+  animation: load7 1.8s infinite ease-in-out;
+}
+.loader {
+  margin: 8em auto;
+  font-size: 10px;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+.loader:before {
+  left: -3.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+.loader:after {
+  left: 3.5em;
+}
+.loader:before,
+.loader:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+@-webkit-keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em #fff;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0 #8bc832;
+  }
+}
+@keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em #fff;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0 #8bc832;
+  }
 }
