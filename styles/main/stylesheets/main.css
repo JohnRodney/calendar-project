@@ -25,7 +25,7 @@ li {
 
 /* line 22, ../sass/main.scss */
 .disabled {
-  background-color: #efefef;
+  background-color: #F2F5FA;
 }
 
 /* line 25, ../sass/main.scss */
@@ -37,7 +37,7 @@ li {
   margin-top: 25%;
   display: table;
   text-align: center;
-  font-size: 1em;
+  font-size: 15px;
 }
 
 /* line 35, ../sass/main.scss */
@@ -65,72 +65,110 @@ li {
 /* line 50, ../sass/main.scss */
 .calendar-head {
   width: 100%;
-  background-color: #5468b6;
+  background-color: #4d63b6;
   color: white;
   text-align: center;
   padding-top: 15px;
   padding-bottom: 15px;
+  font-family: 'Lato', sans-serif;
 }
 
-/* line 58, ../sass/main.scss */
+/* line 59, ../sass/main.scss */
+.cal-header {
+  font-size: 32px;
+  font-weight: 300;
+  margin-bottom: 10px;
+}
+
+/* line 64, ../sass/main.scss */
+.cal-label {
+  margin-top: 10px;
+  font-size: 21px;
+  font-weight: 300;
+}
+
+/* line 69, ../sass/main.scss */
 .cal-select-holder {
   background-color: white;
   width: 40%;
   margin-left: 30%;
   border-radius: 5px;
   background-image: url("../../images/dropdown-arrow.svg");
-  background-position: right 10px center;
-  background-size: auto 50%;
+  background-position: right 10px bottom 15px;
+  background-size: auto 20%;
   background-repeat: no-repeat;
+  text-align: left;
+  color: black;
 }
-/* line 67, ../sass/main.scss */
+/* line 80, ../sass/main.scss */
 .cal-select-holder select {
+  border: none;
   padding-left: 10px;
-  width: 100%;
-  height: 50px;
+  width: 200%;
+  height: 40px;
   -webkit-appearance: none;
   font-size: 1.5em;
   background-color: transparent;
+  font-family: 'lato', sans-serif;
+  font-weight: 300;
+  font-size: 21px;
+}
+/* line 91, ../sass/main.scss */
+.cal-select-holder select:focus {
+  outline: none;
+}
+/* line 95, ../sass/main.scss */
+.cal-select-holder p {
+  padding-top: 5px;
+  margin: 0;
+  padding-left: 10px;
+  font-family: 'lato', sans-serif;
+  font-weight: 300;
+  font-size: 13px;
 }
 
-/* line 76, ../sass/main.scss */
+/* line 104, ../sass/main.scss */
 .calendar-foot {
+  min-height: 200px;
   width: 100%;
-  background-color: #3A59D6;
+  background-color: #4d63b6;
   color: white;
   text-align: center;
   clear: both;
+  position: relative;
+  top: -2px;
 }
 
-/* line 83, ../sass/main.scss */
+/* line 114, ../sass/main.scss */
 #calendar-left, #calendar-right {
-  width: 97%;
+  font-family: 'Lato', sans-serif;
+  width: calc(100% - 30px);
 }
 @media screen and (max-width: 1000px) {
-  /* line 83, ../sass/main.scss */
+  /* line 114, ../sass/main.scss */
   #calendar-left, #calendar-right {
     width: 100%;
   }
 }
 
-/* line 89, ../sass/main.scss */
+/* line 121, ../sass/main.scss */
 #calendar-left {
   float: right;
 }
 
-/* line 92, ../sass/main.scss */
+/* line 124, ../sass/main.scss */
 #calendar-right {
   float: left;
 }
 
-/* line 95, ../sass/main.scss */
+/* line 127, ../sass/main.scss */
 #cal-left-holder, #cal-right-holder {
   width: 50%;
   float: left;
   height: 100%;
 }
 @media screen and (max-width: 1000px) {
-  /* line 95, ../sass/main.scss */
+  /* line 127, ../sass/main.scss */
   #cal-left-holder, #cal-right-holder {
     width: 100%;
     clear: both;
@@ -138,39 +176,48 @@ li {
 }
 
 @media screen and (max-width: 1000px) {
-  /* line 104, ../sass/main.scss */
+  /* line 136, ../sass/main.scss */
   #cal-right-holder {
     display: none;
   }
 }
 
-/* line 109, ../sass/main.scss */
+/* line 141, ../sass/main.scss */
 #cal-left-head, #cal-right-head {
-  width: 97%;
+  width: calc(100% - 30px);
   height: 35px;
-  background-color: #efefef;
+  background-color: #f7f7f7;
   text-align: center;
-  font-size: 1.5em;
+  font-size: 20px;
   padding-top: 15px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
 }
 @media screen and (max-width: 1000px) {
-  /* line 109, ../sass/main.scss */
+  /* line 141, ../sass/main.scss */
   #cal-left-head, #cal-right-head {
     width: 100%;
   }
 }
 
-/* line 120, ../sass/main.scss */
+/* line 154, ../sass/main.scss */
+.fc-widget-header {
+  border: none;
+  border-style: none !important;
+  background-color: #f7f7f7;
+}
+
+/* line 159, ../sass/main.scss */
 #cal-left-head {
   float: right;
 }
 
-/* line 123, ../sass/main.scss */
+/* line 162, ../sass/main.scss */
 #cal-left-head p, #cal-right-head p {
   margin-top: 0;
 }
 
-/* line 126, ../sass/main.scss */
+/* line 165, ../sass/main.scss */
 #cal-holder {
   width: 100%;
   float: left;
@@ -178,58 +225,65 @@ li {
   height: 100%;
 }
 
-/* line 132, ../sass/main.scss */
+/* line 171, ../sass/main.scss */
 #cal-go-left {
-  width: 3%;
-  background-color: #8dce30;
+  width: 30px;
+  background-color: #8bc832;
   display: table;
   float: left;
   height: 100%;
 }
 @media screen and (max-width: 1000px) {
-  /* line 132, ../sass/main.scss */
+  /* line 171, ../sass/main.scss */
   #cal-go-left {
     display: none;
   }
 }
 
-/* line 142, ../sass/main.scss */
-.calendar-foot button {
-  background-color: #8dce30;
+/* line 181, ../sass/main.scss */
+.cal-save {
+  background-color: #8bc832;
   height: 50px;
   width: 30%;
   border-radius: 5px;
-  margin-top: 15px;
+  margin-top: 40px;
   margin-bottom: 15px;
-  font-size: 1.5em;
+  font-size: 13px;
   color: white;
+  letter-spacing: 2px;
   border: none;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
 }
 
-/* line 153, ../sass/main.scss */
+/* line 195, ../sass/main.scss */
 .white {
   color: white !important;
 }
 
-/* line 156, ../sass/main.scss */
+/* line 198, ../sass/main.scss */
 .arrow-left {
   background-image: url("../../images/calendar-arrow.svg");
   width: 100%;
-  background-size: 100% 100%;
+  background-size: 50% 50%;
+  background-repeat: no-repeat;
+  background-position: center center;
   display: table-cell;
 }
-/* line 161, ../sass/main.scss */
+/* line 205, ../sass/main.scss */
 .arrow-left:after {
   display: block;
   content: "";
   padding-bottom: 100%;
 }
 
-/* line 167, ../sass/main.scss */
+/* line 211, ../sass/main.scss */
 .arrow-right {
   background-image: url("../../images/calendar-arrow.svg");
   width: 100%;
-  background-size: 100% 100%;
+  background-size: 50% 50%;
+  background-repeat: no-repeat;
+  background-position: center center;
   -moz-transform: scaleX(-1);
   -o-transform: scaleX(-1);
   -webkit-transform: scaleX(-1);
@@ -239,46 +293,46 @@ li {
   isplay: table-cell;
   display: table-cell;
 }
-/* line 178, ../sass/main.scss */
+/* line 224, ../sass/main.scss */
 .arrow-right:after {
   display: block;
   content: "";
   padding-bottom: 100%;
 }
 
-/* line 184, ../sass/main.scss */
+/* line 230, ../sass/main.scss */
 #cal-go-right {
-  width: 3%;
-  background-color: #8dce30;
+  width: 30px;
+  background-color: #8bc832;
   float: right;
   display: table;
   height: 100%;
 }
 @media screen and (max-width: 1000px) {
-  /* line 184, ../sass/main.scss */
+  /* line 230, ../sass/main.scss */
   #cal-go-right {
     display: none;
   }
 }
 
-/* line 194, ../sass/main.scss */
+/* line 240, ../sass/main.scss */
 .cal-selected {
-  background-color: #5468b6 !important;
+  background-color: #4d63b6 !important;
 }
 
-/* line 197, ../sass/main.scss */
+/* line 243, ../sass/main.scss */
 .cal-selected .price-holder p {
   color: white;
 }
 
-/* line 200, ../sass/main.scss */
+/* line 246, ../sass/main.scss */
 .light-green {
   background-color: #f6fff6;
 }
 
-/* line 203, ../sass/main.scss */
+/* line 249, ../sass/main.scss */
 .check-box {
-  background-color: #8dce30;
+  background-color: #8bc832;
   background-image: url("../../images/calendar-check.svg");
   background-size: 90% 90%;
   background-position: center;
@@ -289,27 +343,27 @@ li {
   margin-top: 5px;
   margin-left: 5px;
 }
-/* line 214, ../sass/main.scss */
+/* line 260, ../sass/main.scss */
 .check-box:after {
   content: "";
   display: block;
   padding-bottom: 100%;
 }
 
-/* line 220, ../sass/main.scss */
+/* line 266, ../sass/main.scss */
 .phone-cal-nav {
   width: 100px;
   margin: 15px auto 0 auto;
   display: none;
 }
 @media screen and (max-width: 1000px) {
-  /* line 220, ../sass/main.scss */
+  /* line 266, ../sass/main.scss */
   .phone-cal-nav {
     display: block;
   }
 }
 
-/* line 228, ../sass/main.scss */
+/* line 274, ../sass/main.scss */
 .cal-nav-left, .cal-nav-right {
   height: 50px;
   width: 50px;
@@ -320,7 +374,7 @@ li {
   float: left;
 }
 
-/* line 237, ../sass/main.scss */
+/* line 283, ../sass/main.scss */
 .cal-nav-left {
   -moz-transform: scaleX(-1);
   -o-transform: scaleX(-1);
@@ -331,15 +385,115 @@ li {
   isplay: table-cell;
 }
 
-/* line 245, ../sass/main.scss */
+/* line 291, ../sass/main.scss */
 #toggl-target {
   display: none;
 }
 
-/* line 248, ../sass/main.scss */
+/* line 294, ../sass/main.scss */
 .throbber {
   width: 10%;
   height: 10%;
   left: 45%;
   top: 200px;
+}
+
+/* line 300, ../sass/main.scss */
+.calendar-component {
+  font-size: 12px;
+}
+
+/* line 303, ../sass/main.scss */
+.question-icon {
+  height: 100%;
+  width: 100%;
+  background-size: 50% auto;
+  background-image: url("../../images/calendar-icon.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+/* line 311, ../sass/main.scss */
+.popup-info {
+  width: 200px;
+  padding: 10px;
+  padding-bottom: 20px;
+  background-image: url("../../images/tool-tip.png");
+  background-size: 100% 100%;
+  border-radius: 5px;
+  position: absolute;
+  text-align: center;
+  font-family: 'Late', sans-serif;
+  font-weight: 300;
+  display: none;
+  top: 40%;
+  left: 40%;
+  z-index: 99999;
+}
+
+/* line 327, ../sass/main.scss */
+.loader:before,
+.loader:after,
+.loader {
+  border-radius: 50%;
+  width: 2.5em;
+  height: 2.5em;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation: load7 1.8s infinite ease-in-out;
+  animation: load7 1.8s infinite ease-in-out;
+}
+
+/* line 338, ../sass/main.scss */
+.loader {
+  margin: 8em auto;
+  font-size: 10px;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+/* line 349, ../sass/main.scss */
+.loader:before {
+  left: -3.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+/* line 354, ../sass/main.scss */
+.loader:after {
+  left: 3.5em;
+}
+
+/* line 357, ../sass/main.scss */
+.loader:before,
+.loader:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+
+@-webkit-keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em #fff;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0 #8bc832;
+  }
+}
+@keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em #fff;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0 #8bc832;
+  }
 }

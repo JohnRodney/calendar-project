@@ -113,14 +113,14 @@ class matriceManager{
   // calculate the index in the array by the date passed
   getIndexByDate(date){
     var checkDate = moment(date);
-    for(var x = 0; x < this.byLease[this.activeLease-1].length; x++){
+    for(var x = this.byLease[this.activeLease-1].length-1; x > 0; x--){
       var prev = -1, next = -1;
       var current = moment(this.byLease[this.activeLease-1][x].moveInDate);
-      if(x > 0){
-        prev = moment(this.byLease[this.activeLease-1][x-1].moveInDate);
-      }
       if(x < this.byLease[this.activeLease-1].length-1){
-        next = moment(this.byLease[this.activeLease-1][x+1].moveInDate);
+        prev = moment(this.byLease[this.activeLease-1][x+1].moveInDate);
+      }
+      if(x > 0){
+        next = moment(this.byLease[this.activeLease-1][x-1].moveInDate);
       }
       if(checkDate.dayOfYear() === current.dayOfYear() && checkDate.year() === current.year()){
         return x;
@@ -128,7 +128,7 @@ class matriceManager{
       else if(prev !== -1){
         if(checkDate.dayOfYear() > prev.dayOfYear() && checkDate.year() >= prev.year() &&
            checkDate.dayOfYear() < current.dayOfYear() && checkDate.year() <= current.year()){
-          return x-1;
+          return x+1;
         }
       }
       else if(next !== -1){
@@ -138,7 +138,7 @@ class matriceManager{
         }
       }
     }
-    return this.byLease[this.activeLease-1].length-1;
+    return 0;
   }
   // calculates the first day that is available for the lease term.
   getFirstMoveInDate(){
