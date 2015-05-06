@@ -48,7 +48,7 @@ class matriceManager{
   // break the overall query into a smaller array of just the passed lease term
   filterByLease(term){
     var that = this;
-    return this.matrices.filter(function(mat){
+    return this.matrices.filter(function(mat, i, matrices){
       if(that.cheapest > mat.finalRent){
         that.cheapest = mat.finalRent;
         that.activeLease = mat.leaseTerm;
@@ -82,10 +82,34 @@ class matriceManager{
         this.availableLeases[x] = true;
         this.activeLease = x+1;
       }
+      this.byLease[x] = this.lookForGaps(this.byLease[x]);
     }
     this.renderInfo();
     return true;
   }
+
+  lookForGaps(arr){
+    var tempArr = [];
+    var offset = 0;
+    arr.forEach(function(node, i, array){
+      if(i < array.length-1){
+        if(Math.abs(moment(array[i+1].moveInDate).dayOfYear() - moment(node.moveInDate).dayOfYear()) === 2){
+          tempArr[i+offset] = node;
+          tempArr[i+offset].restricted = false;
+        }
+        else{
+          tempArr[i+offset] = $.extend(true, {}, node);
+          tempArr[i+offset].restricted = false;
+          tempArr[i+offset+1] = $.extend(true, {}, node);
+          tempArr[i+offset+1].restricted = true;
+          tempArr[i+offset+1].moveInDate = moment(node.moveInDate).add(-1, 'days').toString();
+          offset++;
+        }
+      }
+    });
+    return tempArr;
+  }
+
   fillSelectBox(){
     var html = '';
     for(var x = 0; x < 15; x++){

@@ -12,11 +12,8 @@ import matrice from '../matrices/matrices';
 
 class dayRenderHelper{
   disableBefore(today, date, cell){
-    if(date < today.add(-1, 'day')){
+    if(date < today){
       $(cell).addClass('disabled');
-      if(date.month() === today.month()){
-        $(cell).append('<div class=\"question-icon\"></div>');
-      }
       return true;
     }
     return false;
@@ -50,7 +47,12 @@ class dayRenderHelper{
     else if(this.disableAfterMax(date, cell, maxDay)){return;}
     else{
       this.matrix = matrice.getMatricesByIndex(index);
-      this.renderPrice(cell);
+      if(!this.matrix[0].restricted){
+        this.renderPrice(cell);
+      }
+      else{
+        $(cell).addClass('disabled');
+      }
     }
   }
   getPrice(){

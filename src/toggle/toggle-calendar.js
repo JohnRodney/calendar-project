@@ -34,6 +34,7 @@ export default React.createClass({
       $('.jquery-calendar-left').fullCalendar('gotoDate', matrices.earliestMoveIn);
       $('.jquery-calendar-right').fullCalendar('gotoDate', matrices.earliestMoveIn);
       $('.jquery-calendar-right .fc-next-button').trigger('click');
+      $('#cal-go-left').css('background-color', '#afafaf');
     }
     else{
       target.hide();
@@ -70,6 +71,10 @@ export default React.createClass({
         rightPrev.trigger('click');
         leftPrev.trigger('click');
         that.cleanUp();
+        $('#cal-go-right').css('background-color', '#8bc832');
+        if($('.jquery-calendar-left').fullCalendar('getDate').month() === matrices.earliestMoveIn.month()){
+          $('#cal-go-left').css('background-color', '#afafaf');
+        }
       }
     });
     // Right Direction navigation
@@ -78,6 +83,11 @@ export default React.createClass({
         leftNext.trigger('click');
         rightNext.trigger('click');
         that.cleanUp();
+        $('#cal-go-left').css('background-color', '#8bc832');
+        if($('.jquery-calendar-right').fullCalendar('getDate').month() === matrices.lastMoveIn.month()){
+          $('#cal-go-right').css('background-color', '#afafaf');
+        }
+
       }
     });
     // Allow user to select a Date
