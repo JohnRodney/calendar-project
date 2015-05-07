@@ -27,12 +27,13 @@ class matriceManager{
     return [this.byLease[this.activeLease-1][index]];
   }
   // return a matrice by the date and term passed
-  getMatricesByDateTerm(date, term){
+  /*getMatricesByDateTerm(date, term){
     return this.byLease[term-1].filter(function(mat){
       return (moment(mat.moveInDate.$date).dayOfYear() === date.dayOfYear() &&
               moment(mat.moveInDate.$date).year() === date.year());
     });
-  }
+  }*/
+
   renderCheapest(){
     var base = $('.base-rent-holder');
     if(base.length > 0){
@@ -54,13 +55,13 @@ class matriceManager{
         that.activeLease = mat.leaseTerm;
       }
       that.cheapest = Math.min(that.cheapest, mat.finalRent);
-      if(moment(mat.moveInDate).dayOfYear() <= that.earliestMoveIn.dayOfYear() &&
-         moment(mat.moveInDate).year() <= that.earliestMoveIn.year()){
-        that.earliestMoveIn = moment(mat.moveInDate);
+      if(moment(mat.moveInDate, "YYYY-MM-DD").dayOfYear() <= that.earliestMoveIn.dayOfYear() &&
+         moment(mat.moveInDate, "YYYY-MM-DD").year() <= that.earliestMoveIn.year()){
+        that.earliestMoveIn = moment(mat.moveInDate, "YYYY-MM-DD");
       }
-      if(moment(mat.moveInDate).dayOfYear() >= that.lastMoveIn.dayOfYear() &&
-         moment(mat.moveInDate).year() >= that.lastMoveIn.year()){
-        that.lastMoveIn = moment(mat.moveInDate);
+      if(moment(mat.moveInDate, "YYYY-MM-DD").dayOfYear() >= that.lastMoveIn.dayOfYear() &&
+         moment(mat.moveInDate, "YYYY-MM-DD").year() >= that.lastMoveIn.year()){
+        that.lastMoveIn = moment(mat.moveInDate, "YYYY-MM-DD");
       }
 
       return (term === mat.leaseTerm);
@@ -82,7 +83,7 @@ class matriceManager{
         this.availableLeases[x] = true;
         this.activeLease = x+1;
       }
-      this.byLease[x] = this.lookForGaps(this.byLease[x]);
+      this.byLease[x] = this.lookForGaps(this.byLease[x]).reverse();
     }
     this.renderInfo();
     return true;
@@ -93,7 +94,7 @@ class matriceManager{
     var offset = 0;
     arr.forEach(function(node, i, array){
       if(i < array.length-1){
-        if(Math.abs(moment(array[i+1].moveInDate).dayOfYear() - moment(node.moveInDate).dayOfYear()) === 2){
+        if(Math.abs(moment(array[i+1].moveInDate, "YYYY-MM-DD").dayOfYear() - moment(node.moveInDate, "YYYY-MM-DD").dayOfYear()) === 2){
           tempArr[i+offset] = node;
           tempArr[i+offset].restricted = false;
         }
@@ -102,9 +103,13 @@ class matriceManager{
           tempArr[i+offset].restricted = false;
           tempArr[i+offset+1] = $.extend(true, {}, node);
           tempArr[i+offset+1].restricted = true;
-          tempArr[i+offset+1].moveInDate = moment(node.moveInDate).add(-1, 'days').toString();
+          tempArr[i+offset+1].moveInDate = moment(node.moveInDate, 'YYYY-MM-DD').add(2, 'days').toString();
           offset++;
         }
+      }
+      else{
+        tempArr[i+offset] = node;
+        tempArr[i+offset].restricted = false;
       }
     });
     return tempArr;
@@ -136,23 +141,23 @@ class matriceManager{
   }
   // calculate the index in the array by the date passed
   getIndexByDate(date){
-    var checkDate = moment(date);
-    for(var x = this.byLease[this.activeLease-1].length-1; x > 0; x--){
+    var checkDate = date;
+    for(var x = 0; x < this.byLease[this.activeLease-1].length; x++){
       var prev = -1, next = -1;
-      var current = moment(this.byLease[this.activeLease-1][x].moveInDate);
-      if(x < this.byLease[this.activeLease-1].length-1){
-        prev = moment(this.byLease[this.activeLease-1][x+1].moveInDate);
-      }
+      var current = moment(this.byLease[this.activeLease-1][x].moveInDate, "YYYY-MM-DD");
       if(x > 0){
-        next = moment(this.byLease[this.activeLease-1][x-1].moveInDate);
+        prev = moment(this.byLease[this.activeLease-1][x-1].moveInDate, "YYYY-MM-DD");
+      }
+      if(x < this.byLease[this.activeLease-1].length-1){
+        next = moment(this.byLease[this.activeLease-1][x+1].moveInDate, "YYYY-MM-DD");
       }
       if(checkDate.dayOfYear() === current.dayOfYear() && checkDate.year() === current.year()){
         return x;
       }
       else if(prev !== -1){
-        if(checkDate.dayOfYear() > prev.dayOfYear() && checkDate.year() >= prev.year() &&
-           checkDate.dayOfYear() < current.dayOfYear() && checkDate.year() <= current.year()){
-          return x+1;
+        if(checkDate.dayOfYear() >= prev.dayOfYear() && checkDate.year() >= prev.year() &&
+           checkDate.dayOfYear() <= current.dayOfYear() && checkDate.year() <= current.year()){
+          return x-1;
         }
       }
       else if(next !== -1){
@@ -162,7 +167,7 @@ class matriceManager{
         }
       }
     }
-    return 0;
+    return this.byLease[this.activeLease-1].length-1;
   }
   // calculates the first day that is available for the lease term.
   getFirstMoveInDate(){
@@ -173,7 +178,7 @@ class matriceManager{
     this.activeLease = num;
     this.cheapest = this.getCheapest(num);
     this.renderCheapest();
-    this.moveInDate = moment(this.getFirstMoveInDate());
+    this.moveInDate = moment(this.getFirstMoveInDate(), "YYYY-MM-DD");
   }
   getRedirect(id){
     var toSend = {id: id};
