@@ -50,18 +50,20 @@ class matriceManager{
   filterByLease(term){
     var that = this;
     return this.matrices.filter(function(mat, i, matrices){
+      var moveIn = moment(mat.moveInDate, "YYYY-MM-DD").utcOffset(-5)
+
       if(that.cheapest > mat.finalRent){
         that.cheapest = mat.finalRent;
         that.activeLease = mat.leaseTerm;
       }
       that.cheapest = Math.min(that.cheapest, mat.finalRent);
-      if(moment(mat.moveInDate, "YYYY-MM-DD").dayOfYear() <= that.earliestMoveIn.dayOfYear() &&
-         moment(mat.moveInDate, "YYYY-MM-DD").year() <= that.earliestMoveIn.year()){
-        that.earliestMoveIn = moment(mat.moveInDate, "YYYY-MM-DD");
+      if(moveIn.dayOfYear() <= that.earliestMoveIn.dayOfYear() &&
+         moveIn.year() <= that.earliestMoveIn.year()){
+        that.earliestMoveIn = moveIn;
       }
-      if(moment(mat.moveInDate, "YYYY-MM-DD").dayOfYear() >= that.lastMoveIn.dayOfYear() &&
-         moment(mat.moveInDate, "YYYY-MM-DD").year() >= that.lastMoveIn.year()){
-        that.lastMoveIn = moment(mat.moveInDate, "YYYY-MM-DD");
+      if(moveIn.dayOfYear() >= that.lastMoveIn.dayOfYear() &&
+         moveIn.year() >= that.lastMoveIn.year()){
+        that.lastMoveIn = moveIn;
       }
 
       return (term === mat.leaseTerm);
@@ -93,17 +95,21 @@ class matriceManager{
     var tempArr = [];
     var offset = 0;
     arr.forEach(function(node, i, array){
+      node.moveInDate = moment(node.moveInDate, "YYYY-MM-DD");
       if(i < array.length-1){
-        if(Math.abs(moment(array[i+1].moveInDate, "YYYY-MM-DD").dayOfYear() - moment(node.moveInDate, "YYYY-MM-DD").dayOfYear()) === 2){
+        if(Math.abs(moment(array[i+1].moveInDate, "YYYY-MM-DD").utcOffset(-5).dayOfYear() - node.moveInDate.dayOfYear()) === 2){
           tempArr[i+offset] = node;
           tempArr[i+offset].restricted = false;
         }
         else{
+          console.log('found gaps');
           tempArr[i+offset] = $.extend(true, {}, node);
           tempArr[i+offset].restricted = false;
           tempArr[i+offset+1] = $.extend(true, {}, node);
           tempArr[i+offset+1].restricted = true;
-          tempArr[i+offset+1].moveInDate = moment(node.moveInDate, 'YYYY-MM-DD').add(2, 'days').toString();
+          tempArr[i+offset+1].moveInDate = $.extend(true, {}, node.moveInDate.add(-2, 'days'));
+          console.log('current node: ', tempArr[i+offset].moveInDate.toString(), 'created node', tempArr[i+offset+1].moveInDate.toString());
+          console.log(tempArr[i+offset+1].moveInDate.dayOfYear());
           offset++;
         }
       }
@@ -197,6 +203,7 @@ class matriceManager{
   testLoader(self, callback, nid){
     var that = self || this;
     var xobj = new XMLHttpRequest();
+    var x;
     xobj.overrideMimeType("application/json");
     xobj.open("GET", "http://camden-node-2.herokuapp.com/v1/" + nid + "/rent-matrix", true); // Replace 'my_data' with the path to your file
     xobj.onreadystatechange = function () {
@@ -206,7 +213,14 @@ class matriceManager{
             that.matrices = JSON.parse(xobj.responseText);
             // Break up into arrays for each lease term then save cheapest
             // Earliest Move In Date and Last Move In Date
+            x = that.matrices.splice(50, 1);
+            var y = that.matrices.splice(64, 1);
+            console.log(y);
+            console.log(x[0]);
+            console.log(x[0].moveInDate);
+            console.log(moment(x[0].moveInDate, "YYYY-MM-DD").toString());
             that.breakUpArray();
+            console.log(that.byLease);
             that.indexControl = 0;
             callback();
           }

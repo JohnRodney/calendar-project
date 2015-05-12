@@ -9,6 +9,7 @@ import matrice from '../matrices/matrices';
 // renderDay(): this is the main entry point to the class that is called from the FullCalender dayRender method
 // getPrice(): this calculates the price based on selected matrix and the original price.
 // ---------------------------------------------------------------------------------------------------------------------------------*/
+var lastDisabled = null;
 
 class dayRenderHelper{
   disableBefore(today, date, cell){
@@ -46,14 +47,21 @@ class dayRenderHelper{
     if(this.disableBefore(today, date, cell)){return;}
     else if(this.disableAfterMax(date, cell, maxDay)){return;}
     else{
+      var disable = false;
+      if(lastDisabled+1 === date.dayOfYear()){
+        disable = true;
+      }
       this.matrix = matrice.getMatricesByIndex(index);
-      if(!this.matrix[0].restricted){
+      if(!this.matrix[0].restricted && !disable){
         this.renderPrice(cell);
       }
       else{
-        console.log(this.matrix[0]);
-        console.log(date.toString());
-        console.log(moment(date, 'YYYY-MM-DD').toString());
+        if(!disable){
+          lastDisabled = date.dayOfYear();
+        }
+        else{
+          lastDisabled = -2;
+        }
         $(cell).addClass('disabled');
       }
     }
