@@ -174,50 +174,6 @@ class matriceManager{
     // return the new array
     console.log(tempArr);
     return this.sortByDate(tempArr);
-    /*
-    for(var i = 0; i < arr.length; i++){
-      var array = arr,
-          node = array[i];
-      node.moveInDate = moment(node.moveInDate, "YYYY-MM-DD");
-      if(i < array.length-1){
-        if(Math.abs(moment(array[i+1].moveInDate, "YYYY-MM-DD").dayOfYear() - node.moveInDate.dayOfYear()) === 2){
-          console.log('iteration: ' + i);
-          tempArr[i+offset] = node;
-          tempArr[i+offset].restricted = false;
-        }
-        else{
-          console.log('found gaps');
-          var index = i,
-              daysOff = -2;
-          tempArr[index+offset] = $.extend(true, {}, node);
-          tempArr[index+offset].restricted = false;
-          console.log('iteration: '+ i);
-          while(moment(array[index+1].moveInDate, "YYYY-MM-DD").dayOfYear() - node.moveInDate.dayOfYear() !== 2 && index < array.length-2){
-            console.log(i + offset + 1);
-            var tempDate = node.moveInDate.format("YYYY-MM-DD");
-            tempArr[i+offset+1] = {};
-//            tempArr[i+offset+1] = $.extend(true, {}, node);
-            tempArr[i+offset+1].restricted = true;
-            tempArr[i+offset+1].moveInDate = moment(tempDate,"YYYY-MM-DD");
-            console.log(node.moveInDate.toString());
-            tempArr[i+offset+1].moveInDate.add(daysOff, 'days');
-            console.log(node.moveInDate.toString());
-            console.log('index: ' + index, "offset: " + offset, tempArr[i+offset+1].moveInDate.toString(), node.moveInDate.toString());
-            node = tempArr[i+offset+1];
-            index++;
-            offset++;
-            daysOff -= 2;
-          }
-          i = index;
-        }
-      }
-      else{
-        tempArr[i+offset] = node;
-        tempArr[i+offset].restricted = false;
-      }
-    };*/
-    console.log(tempArr);
-    return tempArr;
   }
 
   fillSelectBox(){
