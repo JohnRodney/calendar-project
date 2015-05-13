@@ -85,39 +85,138 @@ class matriceManager{
         this.availableLeases[x] = true;
         this.activeLease = x+1;
       }
-      this.byLease[x] = this.lookForGaps(this.byLease[x]).reverse();
+      this.byLease[x] = this.lookForGaps(this.byLease[x]);
     }
+    this.setActiveLease(this.activeLease);
     this.renderInfo();
     return true;
   }
-
+  getRestrictedArray(startDate, endDate){
+    // empty array to save entries to
+    var returnArray = [];
+    // set the compare date to the start date as string to avoid object reference issues
+    var currentDate = startDate.format("YYYY-MM-DD");
+    // turn the string into a moment
+    currentDate = moment(currentDate, "YYYY-MM-DD");
+    // add two days so that the loop starts on the first restricted date
+    currentDate.add(2, 'days');
+    // index to track position in the array
+    var index = 0;
+    // run until the end date has been reached
+    while(currentDate.dayOfYear() !== endDate.dayOfYear()){
+      // create an object to insert
+      var obj = {}
+      // set the date of the object by string to avoid reference issues
+      obj.moveInDate = currentDate.format("YYYY-MM-DD");
+      // turn it into a moment
+      obj.moveInDate = moment(obj.moveInDate, "YYYY-MM-DD");
+      // set restricted to true
+      obj.restricted = true;
+      // save the object into the array
+      returnArray[index] = obj;
+      // add to index
+      index++;
+      // add to curendDate
+      currentDate.add(2, 'days');
+    }
+    return returnArray;
+  }
+  sortByDate(arr){
+    arr.sort(function (a, b) {
+      if (a.moveInDate.dayOfYear() > b.moveInDate.dayOfYear() && a.moveInDate.year() >= b.moveInDate.year()) {
+        return 1;
+      }
+      if (a.moveInDate.dayOfYear() < b.moveInDate.dayOfYear() && a.moveInDate.year() <= b.moveInDate.year()) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+    return arr;
+  }
   lookForGaps(arr){
+    // the array to return
     var tempArr = [];
-    var offset = 0;
+    // loop through the entire array looking for gaps
+    var that = this;
     arr.forEach(function(node, i, array){
+      // set the restricted value of node to false
+      node.restricted = false;
+      // turn move in to a mement
+      node.moveInDate = moment(node.moveInDate, "YYYY-MM-DD");
+      // add the node to the array
+      tempArr.push(node);
+      // if i is zero then this needs to be the last available lease
+      if(i === 0 && node.moveInDate.dayOfYear() !== that.lastMoveIn.dayOfYear()){
+        var startDate = node.moveInDate,
+            endDate = that.lastMoveIn.format("YYYY-MM-DD");
+        endDate = moment(endDate, "YYYY-MM-DD").add(2, 'days');
+        tempArr = tempArr.concat(that.getRestrictedArray(startDate, endDate));
+      }
+      else if(i === array.length-1 && node.moveInDate.dayOfYear() !== that.earliestMoveIn.dayOfYear()){
+        var startDate = that.earliestMoveIn.format("YYYY-MM-DD"),
+            endDate = node.moveInDate;
+        startDate = moment(startDate, "YYYY-MM-DD").add(-2, 'days');
+        tempArr = tempArr.concat(that.getRestrictedArray(startDate, endDate));
+      }
+      // only look at the next array if this isn't the last spot in the array
+      if(i < array.length-1){
+      // look at the next node and see if they have a date gap of more than 2 days
+        if(Math.abs(node.moveInDate.dayOfYear() - moment(array[i+1].moveInDate,"YYYY-MM-DD").dayOfYear()) > 2){
+          // set the startDate to the next node and endDate to current node
+          var startDate = moment(array[i+1].moveInDate, "YYYY-MM-DD"),
+              endDate = node.moveInDate;
+          // merge the result of the function into the temporary array
+          tempArr = tempArr.concat(that.getRestrictedArray(startDate, endDate));
+        }
+      }
+    });
+    // return the new array
+    console.log(tempArr);
+    return this.sortByDate(tempArr);
+    /*
+    for(var i = 0; i < arr.length; i++){
+      var array = arr,
+          node = array[i];
       node.moveInDate = moment(node.moveInDate, "YYYY-MM-DD");
       if(i < array.length-1){
-        if(Math.abs(moment(array[i+1].moveInDate, "YYYY-MM-DD").utcOffset(-5).dayOfYear() - node.moveInDate.dayOfYear()) === 2){
+        if(Math.abs(moment(array[i+1].moveInDate, "YYYY-MM-DD").dayOfYear() - node.moveInDate.dayOfYear()) === 2){
+          console.log('iteration: ' + i);
           tempArr[i+offset] = node;
           tempArr[i+offset].restricted = false;
         }
         else{
           console.log('found gaps');
-          tempArr[i+offset] = $.extend(true, {}, node);
-          tempArr[i+offset].restricted = false;
-          tempArr[i+offset+1] = $.extend(true, {}, node);
-          tempArr[i+offset+1].restricted = true;
-          tempArr[i+offset+1].moveInDate = $.extend(true, {}, node.moveInDate.add(-2, 'days'));
-          console.log('current node: ', tempArr[i+offset].moveInDate.toString(), 'created node', tempArr[i+offset+1].moveInDate.toString());
-          console.log(tempArr[i+offset+1].moveInDate.dayOfYear());
-          offset++;
+          var index = i,
+              daysOff = -2;
+          tempArr[index+offset] = $.extend(true, {}, node);
+          tempArr[index+offset].restricted = false;
+          console.log('iteration: '+ i);
+          while(moment(array[index+1].moveInDate, "YYYY-MM-DD").dayOfYear() - node.moveInDate.dayOfYear() !== 2 && index < array.length-2){
+            console.log(i + offset + 1);
+            var tempDate = node.moveInDate.format("YYYY-MM-DD");
+            tempArr[i+offset+1] = {};
+//            tempArr[i+offset+1] = $.extend(true, {}, node);
+            tempArr[i+offset+1].restricted = true;
+            tempArr[i+offset+1].moveInDate = moment(tempDate,"YYYY-MM-DD");
+            console.log(node.moveInDate.toString());
+            tempArr[i+offset+1].moveInDate.add(daysOff, 'days');
+            console.log(node.moveInDate.toString());
+            console.log('index: ' + index, "offset: " + offset, tempArr[i+offset+1].moveInDate.toString(), node.moveInDate.toString());
+            node = tempArr[i+offset+1];
+            index++;
+            offset++;
+            daysOff -= 2;
+          }
+          i = index;
         }
       }
       else{
         tempArr[i+offset] = node;
         tempArr[i+offset].restricted = false;
       }
-    });
+    };*/
+    console.log(tempArr);
     return tempArr;
   }
 
@@ -147,22 +246,33 @@ class matriceManager{
   }
   // calculate the index in the array by the date passed
   getIndexByDate(date){
+    var log = false;
+    if(date.dayOfYear() === 247){
+      log = true;
+    }
+
     var checkDate = date;
     for(var x = 0; x < this.byLease[this.activeLease-1].length; x++){
       var prev = -1, next = -1;
-      var current = moment(this.byLease[this.activeLease-1][x].moveInDate, "YYYY-MM-DD");
+      var current = this.byLease[this.activeLease-1][x].moveInDate;
       if(x > 0){
-        prev = moment(this.byLease[this.activeLease-1][x-1].moveInDate, "YYYY-MM-DD");
+        prev = this.byLease[this.activeLease-1][x-1].moveInDate;
       }
       if(x < this.byLease[this.activeLease-1].length-1){
-        next = moment(this.byLease[this.activeLease-1][x+1].moveInDate, "YYYY-MM-DD");
+        next = this.byLease[this.activeLease-1][x+1].moveInDate;
       }
       if(checkDate.dayOfYear() === current.dayOfYear() && checkDate.year() === current.year()){
+        if(log){
+           console.log(this.byLease[this.activeLease-1][x]);
+        }
         return x;
       }
       else if(prev !== -1){
         if(checkDate.dayOfYear() >= prev.dayOfYear() && checkDate.year() >= prev.year() &&
            checkDate.dayOfYear() <= current.dayOfYear() && checkDate.year() <= current.year()){
+          if(log){
+             console.log('prev');
+          }
           return x-1;
         }
       }
@@ -186,47 +296,28 @@ class matriceManager{
     this.renderCheapest();
     this.moveInDate = moment(this.getFirstMoveInDate(), "YYYY-MM-DD");
   }
+  // redirect to the correct drupal node based on the chosen matrice
   getRedirect(id){
-    var toSend = {id: id};
-    var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
-    xmlhttp.open("POST", "http://camden-node-2.herokuapp.com/v1/rent-matrix");
-    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xmlhttp.send(JSON.stringify(toSend));
-    xmlhttp.onreadystatechange = function(){
-      if(xmlhttp.readyState == 4 && xmlhttp.status == "200"){
-        var url = JSON.parse(xmlhttp.responseText);
-        window.location.replace(url.url);
-      }
-    }
+    $.post('http://camden-node-2.herokuapp.com/v1/rent-matrix', {id: id}, function(data){
+      window.location.replace(data.url);
+    });0
   }
   // loads the matrices from the test server
   testLoader(self, callback, nid){
     var that = self || this;
-    var xobj = new XMLHttpRequest();
-    var x;
-    xobj.overrideMimeType("application/json");
-    xobj.open("GET", "http://camden-node-2.herokuapp.com/v1/" + nid + "/rent-matrix", true); // Replace 'my_data' with the path to your file
-    xobj.onreadystatechange = function () {
-          if (xobj.readyState == 4 && xobj.status == "200") {
-            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-            // Get and Save Data
-            that.matrices = JSON.parse(xobj.responseText);
-            // Break up into arrays for each lease term then save cheapest
-            // Earliest Move In Date and Last Move In Date
-            x = that.matrices.splice(50, 1);
-            var y = that.matrices.splice(64, 1);
-            console.log(y);
-            console.log(x[0]);
-            console.log(x[0].moveInDate);
-            console.log(moment(x[0].moveInDate, "YYYY-MM-DD").toString());
-            that.breakUpArray();
-            console.log(that.byLease);
-            that.indexControl = 0;
-            callback();
-          }
-    };
-    xobj.send(null);
+    $.get("http://camden-node-2.herokuapp.com/v1/" + nid + "/rent-matrix", function(data){
+      that.matrices = data;
+      var index = 0;
+      for(var x = 0; x < 10; x++){
+        console.log(that.matrices.splice(index, 1))
+        index += 29;
+      }
+      that.breakUpArray();
+      callback();
+    });
   }
 }
-
+window.testFunction = function(s, e){
+   console.log(new matriceManager().getRestrictedArray(s, e));
+}
 export default new matriceManager();

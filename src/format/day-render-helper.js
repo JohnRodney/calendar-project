@@ -52,16 +52,10 @@ class dayRenderHelper{
         disable = true;
       }
       this.matrix = matrice.getMatricesByIndex(index);
-      if(!this.matrix[0].restricted && !disable){
+      if(!this.matrix[0].restricted){
         this.renderPrice(cell);
       }
       else{
-        if(!disable){
-          lastDisabled = date.dayOfYear();
-        }
-        else{
-          lastDisabled = -2;
-        }
         $(cell).addClass('disabled');
       }
     }
