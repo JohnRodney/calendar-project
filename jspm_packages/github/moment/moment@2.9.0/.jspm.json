@@ -96,5 +96,6 @@
   },
   "buildConfig": {
     "uglify": true
-  }
+  },
+  "registry": "github"
 }

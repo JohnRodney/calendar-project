@@ -57,15 +57,18 @@ class matriceManager{
         that.activeLease = mat.leaseTerm;
       }
       that.cheapest = Math.min(that.cheapest, mat.finalRent);
-      if(moveIn.dayOfYear() <= that.earliestMoveIn.dayOfYear() &&
+      if(moveIn.year() < that.earliestMoveIn.year()){
+        that.earliestMoveIn = moveIn;
+      } else if(moveIn.dayOfYear() <= that.earliestMoveIn.dayOfYear() &&
          moveIn.year() <= that.earliestMoveIn.year()){
         that.earliestMoveIn = moveIn;
       }
-      if(moveIn.dayOfYear() >= that.lastMoveIn.dayOfYear() &&
+      if(moveIn.year() > that.lastMoveIn.year()){
+        that.lastMoveIn = moveIn;
+      } else if(moveIn.dayOfYear() >= that.lastMoveIn.dayOfYear() &&
          moveIn.year() >= that.lastMoveIn.year()){
         that.lastMoveIn = moveIn;
       }
-
       return (term === mat.leaseTerm);
     });
   }
@@ -76,7 +79,8 @@ class matriceManager{
     this.cheapest = 90000;
     this.byLease = [];
     this.availableLeases = [];
-    for(var x = 0; x < 15; x++){
+
+    for(var x = 0; x < 18; x++){
       this.byLease[x] = this.filterByLease(x+1);
       if(this.byLease[x].length === 0){
         this.availableLeases[x] = false;
@@ -87,10 +91,12 @@ class matriceManager{
       }
       this.byLease[x] = this.lookForGaps(this.byLease[x]);
     }
-    this.setActiveLease(this.activeLease);
+    this.setActiveLease(15);
     this.renderInfo();
+    console.log('by lease', this.byLease);
     return true;
   }
+
   getRestrictedArray(startDate, endDate){
     // empty array to save entries to
     var returnArray = [];
@@ -103,7 +109,7 @@ class matriceManager{
     // index to track position in the array
     var index = 0;
     // run until the end date has been reached
-    while(currentDate.dayOfYear() !== endDate.dayOfYear()){
+    while(currentDate.dayOfYear() < endDate.dayOfYear() || currentDate.year() < endDate.year()){
       // create an object to insert
       var obj = {}
       // set the date of the object by string to avoid reference issues
@@ -123,10 +129,16 @@ class matriceManager{
   }
   sortByDate(arr){
     arr.sort(function (a, b) {
-      if (a.moveInDate.dayOfYear() > b.moveInDate.dayOfYear() && a.moveInDate.year() >= b.moveInDate.year()) {
+      var aa = moment(a.moveInDate, 'YYYY-MM-DD');
+      var bb = moment(b.moveInDate, 'YYYY-MM-DD');
+      if(aa.year() > bb.year()){
+        return 1;
+      } else if (aa.dayOfYear() > bb.dayOfYear() && aa.year() === bb.year()) {
         return 1;
       }
-      if (a.moveInDate.dayOfYear() < b.moveInDate.dayOfYear() && a.moveInDate.year() <= b.moveInDate.year()) {
+      if (aa.year() < bb.year()){
+        return -1;
+      } else if (aa.dayOfYear() < bb.dayOfYear() && aa.year() === bb.year()) {
         return -1;
       }
       // a must be equal to b
@@ -139,6 +151,7 @@ class matriceManager{
     var tempArr = [];
     // loop through the entire array looking for gaps
     var that = this;
+    arr = this.sortByDate(arr);
     arr.forEach(function(node, i, array){
       // set the restricted value of node to false
       node.restricted = false;
@@ -146,41 +159,46 @@ class matriceManager{
       node.moveInDate = moment(node.moveInDate, "YYYY-MM-DD");
       // add the node to the array
       tempArr.push(node);
-      // if i is zero then this needs to be the last available lease
-      if(i === 0 && node.moveInDate.dayOfYear() !== that.lastMoveIn.dayOfYear()){
-        var startDate = node.moveInDate,
-            endDate = that.lastMoveIn.format("YYYY-MM-DD");
-        endDate = moment(endDate, "YYYY-MM-DD").add(2, 'days');
-        tempArr = tempArr.concat(that.getRestrictedArray(startDate, endDate));
-      }
-      else if(i === array.length-1 && node.moveInDate.dayOfYear() !== that.earliestMoveIn.dayOfYear()){
+      //if i is zero then this needs to be the first available lease
+      if(i === 0 && node.moveInDate.dayOfYear() !== that.earliestMoveIn.dayOfYear()){
         var startDate = that.earliestMoveIn.format("YYYY-MM-DD"),
-            endDate = node.moveInDate;
+            endDate = moment(node.moveInDate);
         startDate = moment(startDate, "YYYY-MM-DD").add(-2, 'days');
         tempArr = tempArr.concat(that.getRestrictedArray(startDate, endDate));
       }
+      if(i === array.length-1 && node.moveInDate.dayOfYear() !== that.lastMoveIn.dayOfYear()){
+         var startDate = node.moveInDate,
+             endDate = that.lastMoveIn.format("YYYY-MM-DD");
+        endDate = moment(endDate, "YYYY-MM-DD").add(2, 'days');
+        tempArr = tempArr.concat(that.getRestrictedArray(startDate, endDate));
+      }
       // only look at the next array if this isn't the last spot in the array
-      if(i < array.length-1){
+      else if(i < array.length-1){
       // look at the next node and see if they have a date gap of more than 2 days
         if(Math.abs(node.moveInDate.dayOfYear() - moment(array[i+1].moveInDate,"YYYY-MM-DD").dayOfYear()) > 2){
           // set the startDate to the next node and endDate to current node
-          var startDate = moment(array[i+1].moveInDate, "YYYY-MM-DD"),
-              endDate = node.moveInDate;
+          var startDate = moment(node.moveInDate, "YYYY-MM-DD"),
+              endDate = moment(array[i+1].moveInDate);
           // merge the result of the function into the temporary array
           tempArr = tempArr.concat(that.getRestrictedArray(startDate, endDate));
         }
       }
+      else if(array.length === 1){
+        var startDate = moment(node.moveInDate, "YYYY-MM-DD"),
+              endDate = moment(that.lastMoveIn).add(2, 'days');
+          // merge the result of the function into the temporary array
+          tempArr = tempArr.concat(that.getRestrictedArray(startDate, endDate));
+      }
     });
     // return the new array
-    console.log(tempArr);
     return this.sortByDate(tempArr);
   }
 
   fillSelectBox(){
     var html = '';
-    for(var x = 0; x < 15; x++){
+    for(var x = 0; x < 18; x++){
       if(this.availableLeases[x]){
-        if(this.activeLease === (x+1)){
+        if(13 === (x+1)){
           html += "<option selected=\"selected\">" + (x+1);
         }
         else{
@@ -202,11 +220,6 @@ class matriceManager{
   }
   // calculate the index in the array by the date passed
   getIndexByDate(date){
-    var log = false;
-    if(date.dayOfYear() === 247){
-      log = true;
-    }
-
     var checkDate = date;
     for(var x = 0; x < this.byLease[this.activeLease-1].length; x++){
       var prev = -1, next = -1;
@@ -218,23 +231,17 @@ class matriceManager{
         next = this.byLease[this.activeLease-1][x+1].moveInDate;
       }
       if(checkDate.dayOfYear() === current.dayOfYear() && checkDate.year() === current.year()){
-        if(log){
-           console.log(this.byLease[this.activeLease-1][x]);
-        }
         return x;
       }
       else if(prev !== -1){
-        if(checkDate.dayOfYear() >= prev.dayOfYear() && checkDate.year() >= prev.year() &&
-           checkDate.dayOfYear() <= current.dayOfYear() && checkDate.year() <= current.year()){
-          if(log){
-             console.log('prev');
-          }
+        if((checkDate.dayOfYear() >= prev.dayOfYear() || checkDate.year() > prev.year()) && checkDate.year() >= prev.year() &&
+           (checkDate.dayOfYear() <= current.dayOfYear() || checkDate.year() < current.year())  && checkDate.year() <= current.year()){
           return x-1;
         }
       }
       else if(next !== -1){
-        if(checkDate.dayOfYear() > current.dayOfYear() && checkDate.year() >= current.year() &&
-           checkDate.dayOfYear() < next.dayOfYear() && checkDate.year() <= next.year()){
+        if((checkDate.dayOfYear() > current.dayOfYear() || checkDate.year() > current.year()) && checkDate.year() >= current.year() &&
+           (checkDate.dayOfYear() < next.dayOfYear() || checkDate.year() < next.year()) && checkDate.year() <= next.year()){
           return x;
         }
       }
@@ -254,20 +261,16 @@ class matriceManager{
   }
   // redirect to the correct drupal node based on the chosen matrice
   getRedirect(id){
-    $.post('http://camden-node-2.herokuapp.com/v1/rent-matrix', {id: id}, function(data){
+    $.post("https://camden-production.herokuapp.com/v1/rent-matrix", {id: id}, function(data){
       window.location.replace(data.url);
-    });0
+    });
   }
   // loads the matrices from the test server
   testLoader(self, callback, nid){
     var that = self || this;
-    $.get("http://camden-node-2.herokuapp.com/v1/" + nid + "/rent-matrix", function(data){
+    $.get("https://camden-production.herokuapp.com/v1/" + nid + "/rent-matrix", function(data){
       that.matrices = data;
-      var index = 0;
-      for(var x = 0; x < 10; x++){
-        console.log(that.matrices.splice(index, 1))
-        index += 29;
-      }
+      console.log(data);
       that.breakUpArray();
       callback();
     });

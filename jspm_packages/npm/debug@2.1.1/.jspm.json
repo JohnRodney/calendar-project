@@ -63,12 +63,11 @@
     "shasum": "e0c548cc607adc22b537540dc3639c4236fdf90c",
     "tarball": "http://registry.npmjs.org/debug/-/debug-2.1.1.tgz"
   },
-  "jspm": {},
-  "registry": "npm",
   "format": "cjs",
   "ignore": [
     "node_modules"
   ],
+  "registry": "npm",
   "dependencies": {
     "ms": "ms@0.6.2",
     "tty": "github:jspm/nodelibs-tty@^0.1.0",

@@ -1,6 +1,11 @@
 System.config({
   "baseURL": "/",
   "transpiler": "babel",
+  "babelOptions": {
+    "optional": [
+      "runtime"
+    ]
+  },
   "paths": {
     "*": "*.js",
     "github:*": "jspm_packages/github/*.js",
@@ -10,6 +15,9 @@ System.config({
 
 System.config({
   "map": {
+    "babel": "npm:babel-core@5.2.17",
+    "babel-runtime": "npm:babel-runtime@5.2.17",
+    "core-js": "npm:core-js@0.9.7",
     "fullcalendar": "github:arshaw/fullcalendar@2.2.7",
     "jquery": "github:components/jquery@2.1.3",
     "jquery-ui": "npm:jquery-ui@1.10.5",
@@ -47,6 +55,9 @@ System.config({
       "base64-js": "npm:base64-js@0.0.8",
       "ieee754": "npm:ieee754@1.1.4",
       "is-array": "npm:is-array@1.0.1"
+    },
+    "npm:core-js@0.9.7": {
+      "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:core-util-is@1.0.1": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"

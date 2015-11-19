@@ -26,5 +26,5 @@
   "scripts": {
     "install": "bower install"
   },
-  "jspm": {}
+  "registry": "github"
 }

@@ -67,7 +67,8 @@ export default React.createClass({
       }}, '.question-icon');
     // Left Direction navigation
     $('#cal-go-left, .cal-nav-left').click(function(){
-      if($('.jquery-calendar-left').fullCalendar('getDate').month() > matrices.earliestMoveIn.month()){
+      if($('.jquery-calendar-left').fullCalendar('getDate').month() > matrices.earliestMoveIn.month() ||
+         $('.jquery-calendar-left').fullCalendar('getDate').year() > matrices.earliestMoveIn.year() ){
         rightPrev.trigger('click');
         leftPrev.trigger('click');
         that.cleanUp();
@@ -79,7 +80,8 @@ export default React.createClass({
     });
     // Right Direction navigation
     $('#cal-go-right, .cal-nav-right').click(function(){
-      if($('.jquery-calendar-right').fullCalendar('getDate').month() < matrices.lastMoveIn.month()){
+      if($('.jquery-calendar-right').fullCalendar('getDate').month() < matrices.lastMoveIn.month() ||
+         $('.jquery-calendar-right').fullCalendar('getDate').year() < matrices.lastMoveIn.year()){
         leftNext.trigger('click');
         rightNext.trigger('click');
         that.cleanUp();

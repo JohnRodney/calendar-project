@@ -35,12 +35,11 @@
     "shasum": "6fb29292874438f35103440724b1f430711cd346",
     "tarball": "http://registry.npmjs.org/jsonp/-/jsonp-0.1.0.tgz"
   },
-  "jspm": {},
-  "registry": "npm",
   "format": "cjs",
   "ignore": [
     "node_modules"
   ],
+  "registry": "npm",
   "dependencies": {
     "debug": "debug@*"
   }

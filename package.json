@@ -4,8 +4,7 @@
   },
   "jspm": {
     "directories": {
-      "lib": ".",
-      "packages": "jspm_packages"
+      "lib": "."
     },
     "dependencies": {
       "fullcalendar": "github:arshaw/fullcalendar@^2.2.7",
@@ -14,6 +13,11 @@
       "jsonp": "npm:jsonp@^0.1.0",
       "moment": "github:moment/moment@^2.9.0",
       "react": "npm:react@^0.12.2"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.1.13",
+      "babel-runtime": "npm:babel-runtime@^5.1.13",
+      "core-js": "npm:core-js@^0.9.4"
     }
   },
   "devDependencies": {
